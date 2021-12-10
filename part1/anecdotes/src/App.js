@@ -17,18 +17,37 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
   ]
-   
-  const randomNumber = () => {
-    // Returns a random integer from 0 to 10:
-    setSelected(Math.floor(Math.random() * anecdotes.length)) 
-  }
 
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(Array(anecdotes.length).fill(0))
+
+  var largestVotes = points[0];
+
+  for (var i = 0; i < points.length; i++) {
+      if (largestVotes < points[i] ) {
+          largestVotes = points[i];
+      }
+  }
+
+  const vote = () => {
+    let newPoints= [...points]
+    newPoints[selected] += 1
+    setPoints(newPoints)
+  }
+   
+  const randomNumber = () => {
+   return setSelected(Math.floor(Math.random() * anecdotes.length)) 
+  }
 
   return (
     <div>
+      <h1>Anecdote of the Day</h1>
       <p>{anecdotes[selected]}</p>
-      <Button onClick={() => randomNumber()} text={'test'}/>
+      <p>votes = {points[selected]}</p>
+      <Button onClick={() => randomNumber()} text={'new quote'}/>
+      <Button onClick={() => vote()} text={'vote'}/>
+      <h1>Top Anecdote</h1>
+      <p>{anecdotes[points.indexOf(largestVotes)]}</p>
     </div>
   )
 }
