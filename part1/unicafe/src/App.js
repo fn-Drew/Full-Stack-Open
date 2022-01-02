@@ -25,16 +25,17 @@ const App = () => {
   return (
     <div>
       <h1>Give Feedback</h1>
-        <Button onClick={() => setGood(good + 1)} text={'good'} />
-        <Button onClick={() => setNeutral(neutral + 1)} text={'neutral'} />
-        <Button onClick={() => setBad(bad + 1)} text={'bad'} />
-        <StatisticLine text={'good'} value={good} />
-        <StatisticLine text={'neutral'} value={neutral} />
-        <StatisticLine text={'bad'} value={bad} />
-        <StatisticLine text={'total'} value={total} />
-        <StatisticLine text={'average'} value={total / 3} />
-        <StatisticLine text={'positive'} value={(good / total) * 100 + '%'} />
-      </div>
+      <Button onClick={() => setGood(good + 1)} text={'good'} />
+      <Button onClick={() => setNeutral(neutral + 1)} text={'neutral'} />
+      <Button onClick={() => setBad(bad + 1)} text={'bad'} />
+      <h2>Statistics</h2>
+      <StatisticLine text={'good'} value={good} />
+      <StatisticLine text={'neutral'} value={neutral} />
+      <StatisticLine text={'bad'} value={bad} />
+      <StatisticLine text={'total'} value={total} />
+      <StatisticLine text={'average'} value={total / 3} />
+      <StatisticLine text={'positive'} value={(good / total) * 100 + '%'} />
+    </div>
   )
 }
 
