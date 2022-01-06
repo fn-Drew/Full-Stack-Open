@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import PersonForm from './components/PersonForm'
 
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '402-571-3191', id: 1 },
     { name: 'Ada Lovelace', number: '202-522-4872', id: 2 },
-    { name: 'Dan Abramov', number: '202-522-4872', id: 3 },
+    { name: 'Dan Abramov', number: '207-439-5777', id: 3 },
     { name: 'Mary Poppendieck', number: '518-246-5950', id: 4 }
   ]) 
   const [newName, setNewName] = useState('')
@@ -36,7 +37,7 @@ const App = () => {
     setNewName(event.target.value)
   }
 
-  const handleNumberChage = (event) => {
+  const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
 
@@ -44,23 +45,10 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <h2>Add New Person</h2>
-      <form onSubmit={addPerson} >
-        <div>
-          name: <input
-          value={newName}
-          onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input
-          value={newNumber}
-          onChange={handleNumberChage}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm addPerson={addPerson}
+      newName={newName} handleNameChange={handleNameChange}
+      newNumber={newNumber} handleNumberChange={handleNumberChange} />
+      <div>debug: {newNumber}</div>
       <h2>Numbers</h2>
       <ul>
         {persons.map(person => 
