@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import DisplayPersons from './components/DisplayPersons'
 import PersonForm from './components/PersonForm'
 
 const App = () => {
@@ -48,13 +49,8 @@ const App = () => {
       <PersonForm addPerson={addPerson}
       newName={newName} handleNameChange={handleNameChange}
       newNumber={newNumber} handleNumberChange={handleNumberChange} />
-      <div>debug: {newNumber}</div>
       <h2>Numbers</h2>
-      <ul>
-        {persons.map(person => 
-          <li>{person.name} {person.number} </li>
-        )}
-      </ul>
+      <DisplayPersons persons={persons}/>
     </div>
   )
 }
