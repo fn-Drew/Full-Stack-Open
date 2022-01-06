@@ -67,7 +67,6 @@ const App = () => {
           <li>{person.name} {person.number} </li>
         )}
       </ul>
-     ...
     </div>
   )
 }
