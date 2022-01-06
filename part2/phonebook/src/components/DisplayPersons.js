@@ -1,7 +1,7 @@
-const DisplayPersons = ({ persons }) => {
+const DisplayPersons = ({ filteredPersons }) => {
   return (
       <ul>
-        {persons.map(person => 
+        {filteredPersons.map(person => 
           <li>{person.name} {person.number} </li>
         )}
       </ul>

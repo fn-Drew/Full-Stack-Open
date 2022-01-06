@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 import DisplayPersons from './components/DisplayPersons'
 import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '402-571-3191', id: 1 },
-    { name: 'Ada Lovelace', number: '202-522-4872', id: 2 },
-    { name: 'Dan Abramov', number: '207-439-5777', id: 3 },
-    { name: 'Mary Poppendieck', number: '518-246-5950', id: 4 }
-  ]) 
+  const [persons, setPersons] = useState([])
+  
+  const [filteredPersons, setFilteredPersons] = useState([])
+  
   const [newName, setNewName] = useState('')
 
   const [newNumber, setNewNumber] = useState('')
 
+  const [searchedName, setSearchedName] = useState('')
+
   const addPerson = (event) => {
     event.preventDefault()
-    console.log(persons)
 
     if (JSON.stringify(persons).includes(JSON.stringify(newName))) {
       alert(`${newName} is already in the phonebook.`)
@@ -42,15 +42,22 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleNameSearch = (event) => {
+    let result = persons.filter(person => person.name.toLowerCase().includes(searchedName.toLowerCase()))
+    setSearchedName(event.target.value)
+    setFilteredPersons(result)
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <h2>Add New Person</h2>
+      <Filter searchedName={searchedName} handleNameSearch={handleNameSearch}/>
+      <h3>Add New Person</h3>
       <PersonForm addPerson={addPerson}
       newName={newName} handleNameChange={handleNameChange}
       newNumber={newNumber} handleNumberChange={handleNumberChange} />
-      <h2>Numbers</h2>
-      <DisplayPersons persons={persons}/>
+      <h3>Numbers</h3>
+      <DisplayPersons filteredPersons={filteredPersons}/>
     </div>
   )
 }
