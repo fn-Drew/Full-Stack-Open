@@ -61,7 +61,6 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <div>debug: {newNumber}</div>
       <h2>Numbers</h2>
       <ul>
         {persons.map(person => 
