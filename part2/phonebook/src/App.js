@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DisplayPersons from './components/DisplayPersons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -14,6 +15,16 @@ const App = () => {
 
   const [searchedName, setSearchedName] = useState('')
 
+  const hook = () => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }
+  useEffect(hook, [])
+
   const addPerson = (event) => {
     event.preventDefault()
 
@@ -25,7 +36,8 @@ const App = () => {
       setNewNumber('')
     }else {
       const personObject = {
-        name: newName, number: newNumber
+        name: newName,
+        number: newNumber
       }
 
       setPersons(persons.concat(personObject))

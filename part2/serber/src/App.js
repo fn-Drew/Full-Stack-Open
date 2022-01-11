@@ -1,14 +1,12 @@
-import { render } from '@testing-library/react'
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
 const App = () => {
   const [notes, setNotes] = useState([])
-  const [newNotes, setNewNote] = useState('')
-  const [showAll, setShowAll] = useState(true)
+  // const [newNotes, setNewNote] = useState('')
+  // const [showAll, setShowAll] = useState(true)
 
   const hook = () => {
-    console.log('effect')
     axios
       .get('http://localhost:3001/notes')
       .then(response => {
