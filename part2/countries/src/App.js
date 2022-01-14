@@ -2,19 +2,8 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios'
 
-const Filter = (props) => {
-    return (
-      <div>
-        <form>
-          search: <input
-          value={props.searchedCountry}
-          onChange={props.handleCountrySearch}
-        />
-        </form>
-      </div>
-    )
-  }
-
+import Filter from './components/Filter';
+import DisplayCountries from './components/DisplayMaps';
 
 function App() {
   const [countries, setCountries] = useState([])
@@ -42,13 +31,8 @@ function App() {
 
   return (
     <div>
-      <div>debug: {searchedCountry}</div>
       <Filter searchedCountry={searchedCountry} handleCountrySearch={handleCountrySearch} />
-      {visibleCountries.map(country => 
-        <div>
-          {country.name}
-          <div><img src={country.flag} height={50} /></div>
-        </div>)}
+      <DisplayCountries visibleCountries={visibleCountries} />
     </div>
   )
 }
