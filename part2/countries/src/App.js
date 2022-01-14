@@ -3,7 +3,7 @@ import './App.css';
 import axios from 'axios'
 
 import Filter from './components/Filter';
-import DisplayCountries from './components/DisplayMaps';
+import DisplayCountries from './components/DisplayCountries';
 
 function App() {
   const [countries, setCountries] = useState([])
@@ -14,10 +14,8 @@ function App() {
     axios
       .get('https://restcountries.com/v2/all')
       .then(response => {
-        console.log('promise fulfilled')
         setCountries(response.data)
         setVisibleCountries(countries) 
-        console.log(countries)
       })
   }
   useEffect(hook, [])
