@@ -24,7 +24,7 @@ function App() {
     event.preventDefault()
     let result = countries.filter(country => country.name.toLowerCase().includes(searchedCountry))
     setSearchedCountry(event.target.value)
-    setVisibleCountries(result)
+    setVisibleCountries(result.map(v => ({...v, isShown: false})))
   }
 
   return (

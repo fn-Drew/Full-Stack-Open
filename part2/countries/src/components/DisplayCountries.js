@@ -1,30 +1,31 @@
+import { useReducer } from "react"
+
 const DisplayCountries = (props) => {
-  if (Object.keys(props.visibleCountries).length >= 10) {
-    return (
-      <div>
-        Please refine your search
-      </div>
-    )
-  }else {
-    return(
-      props.visibleCountries.map(country => 
-        <div>
-          <h2> {country.name} </h2>
-          <p> capital {country.capital} </p>
-          <p> population {country.population} </p>
-          <h3> Languages </h3>
+  const [, forceUpdate] = useReducer(x => x + 1, 0)
+
+  return(
+    props.visibleCountries.map(country => {
+      if (country.isShown === true) {
+        return(
           <div>
-            <ul>
-              {country.languages.map(language => 
-                <li> {language.name} </li>
-                )}
-            </ul>
+            <h2> {country.name} </h2>
+            <h4> {country.capital} </h4>
           </div>
-          <div><img src={country.flag} height={50} /></div>
-        </div>
-      )
-    )
-  }
+        )
+      } else if (country.isShown === false) {
+        return(
+          <div>
+            <h2> {country.name} </h2>
+            <button onClick={ () => {
+                country.isShown = true
+                forceUpdate()
+              } 
+            }>show</button>
+          </div>
+        )
+      }
+    })
+  )
 
 }
 
