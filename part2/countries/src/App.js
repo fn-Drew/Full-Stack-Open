@@ -6,6 +6,7 @@ import Filter from './components/Filter';
 import DisplayCountries from './components/DisplayCountries';
 
 function App() {
+  const api_key = process.env.REACT_APP_API_KEY
   const [countries, setCountries] = useState([])
   const [visibleCountries, setVisibleCountries] = useState([])
   const [searchedCountry, setSearchedCountry] = useState([])
@@ -20,7 +21,7 @@ function App() {
   }
   useEffect(hook, [])
 
-    const handleCountrySearch = (event) => {
+  const handleCountrySearch = (event) => {
     event.preventDefault()
     let result = countries.filter(country => country.name.toLowerCase().includes(searchedCountry))
     setSearchedCountry(event.target.value)
@@ -30,7 +31,7 @@ function App() {
   return (
     <div>
       <Filter searchedCountry={searchedCountry} handleCountrySearch={handleCountrySearch} />
-      <DisplayCountries visibleCountries={visibleCountries} />
+      <DisplayCountries visibleCountries={visibleCountries}/>
     </div>
   )
 }
