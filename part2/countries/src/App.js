@@ -30,8 +30,12 @@ function App() {
 
   return (
     <div>
-      <Filter searchedCountry={searchedCountry} handleCountrySearch={handleCountrySearch} />
-      <DisplayCountries visibleCountries={visibleCountries}/>
+      <div class="text-center text-xl p-10">
+        <Filter searchedCountry={searchedCountry} handleCountrySearch={handleCountrySearch} />
+      </div>
+      <div class="grid grid-cols-1 grid-flow-row gap-14 text-center">
+        <DisplayCountries visibleCountries={visibleCountries}/>
+      </div>
     </div>
   )
 }
