@@ -27,9 +27,9 @@ function App() {
     setSearchedCountry(event.target.value)
     setVisibleCountries(result.map(v => ({...v, isShown: false})))
   }
-
+// bg-[url('./Images/test.png')]'
   return (
-    <div>
+    <div class="min-h-screen bg-slate-300">
       <div class="text-center text-xl p-10">
         <Filter searchedCountry={searchedCountry} handleCountrySearch={handleCountrySearch} />
       </div>
