@@ -13,7 +13,6 @@ const DisplayCountries = (props) => {
     return(
       props.visibleCountries.map(country => {
         if (country.isShown === true) {
-          console.log(Object.keys(props.visibleCountries).length)
           return(
             <div class="text-slate-100 rounded-3xl bg-slate-700 p-10 m-auto space-x-6 underline-offset-8 shadow-2xl  mx-14">
               <h2 class="underline text-3xl inline-block pb-4"> {country.name} </h2>
@@ -57,7 +56,8 @@ const DisplayCountries = (props) => {
   } else {
     return(
       <div>
-        <p class="text-4xl text-"> Please refine your search </p>
+        <p class="text-4xl"> Please refine your search </p>
+        <p class="text-4xl py-8"> Total Results : {Object.keys(props.visibleCountries).length} </p>
       </div>
     )
   }
