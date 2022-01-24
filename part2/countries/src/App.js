@@ -6,7 +6,6 @@ import Filter from './components/Filter';
 import DisplayCountries from './components/DisplayCountries';
 
 function App() {
-  const api_key = process.env.REACT_APP_API_KEY
   const [countries, setCountries] = useState([])
   const [visibleCountries, setVisibleCountries] = useState([])
   const [searchedCountry, setSearchedCountry] = useState([])
@@ -27,7 +26,7 @@ function App() {
     setSearchedCountry(event.target.value)
     setVisibleCountries(result.map(v => ({...v, isShown: false})))
   }
-// bg-[url('./Images/test.png')]'
+
   return (
     <div class="min-h-screen bg-gradient-to-br from-blue-300 to-slate-400">
       <div class="text-center text-xl p-10">
