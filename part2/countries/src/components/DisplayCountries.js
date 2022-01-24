@@ -22,7 +22,7 @@ const DisplayCountries = (props) => {
               }}>v</button>
               <div>
                 <p> Capital: {country.capital} </p>
-                <p> Population: {country.population} </p>
+                <p> Population: {Number(country.population).toLocaleString()} </p>
               </div>
               <h3> Spoken Languages </h3>
               <ul class="list-disc">
