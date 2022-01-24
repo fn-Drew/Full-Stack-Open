@@ -29,7 +29,7 @@ function App() {
   }
 // bg-[url('./Images/test.png')]'
   return (
-    <div class="min-h-screen bg-slate-300">
+    <div class="min-h-screen bg-gradient-to-br from-blue-300 to-slate-400">
       <div class="text-center text-xl p-10">
         <Filter searchedCountry={searchedCountry} handleCountrySearch={handleCountrySearch} />
       </div>

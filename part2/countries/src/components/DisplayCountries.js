@@ -1,6 +1,7 @@
 import { useReducer, useEffect } from "react"
 import axios from 'axios'
 
+
 const DisplayCountries = (props) => {
   const [, forceUpdate] = useReducer(x => x + 1, 0)
   const api_key = process.env.REACT_APP_API_KEY
@@ -11,12 +12,12 @@ const DisplayCountries = (props) => {
     props.visibleCountries.map(country => {
       if (country.isShown === true) {
         return(
-          <div class="text-slate-100 rounded-3xl bg-slate-700 p-10 m-auto w-screen">
-            <h2 class="underline text-3xl inline-block px-4 pb-4"> {country.name} </h2>
+          <div class="text-slate-100 rounded-3xl bg-slate-700 p-10 m-auto space-x-6 underline-offset-8 shadow-2xl  mx-14">
+            <h2 class="underline text-3xl inline-block pb-4"> {country.name} </h2>
             <button class="text-3xl" onClick={() => {
               country.isShown = false
               forceUpdate()
-            }}>^</button>
+            }}>v</button>
             <div>
               <p> Capital: {country.capital} </p>
               <p> Population: {country.population} </p>
@@ -34,7 +35,7 @@ const DisplayCountries = (props) => {
         )
       } else if (country.isShown === false) {
         return(
-          <div class="rounded-3xl text-slate-100 text-3xl p-10 bg-slate-700 w-screen mx-12 space-x-6">
+          <div class="rounded-3xl text-slate-100 text-3xl p-10 bg-slate-700 mx-14 shadow-xl underline-offset-8 space-x-6">
             <h2 class="underline text-3xl inline-block" > {country.name} </h2>
             <button onClick={() => {
               country.isShown = true
@@ -44,7 +45,7 @@ const DisplayCountries = (props) => {
                 console.log(`Set ${country.name}, ${country.capital} temperature to ${country.temp}`)
               })
               forceUpdate()
-            }}>v</button>
+            }}>^</button>
           </div>
         )
       }
