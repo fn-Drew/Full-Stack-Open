@@ -16,7 +16,7 @@ const DisplayCountries = (props) => {
       props.visibleCountries.map(country => {
         if (country.isShown === true) {
           return (
-            <div class="font-body hover:ring-4 bg-turqoise-dark hover:bg-turqoise ring-orange text-black rounded-3xl  p-10 m-auto space-x-6 underline-offset-8 shadow-2xl mx-14">
+            <div class="font-body max-w-lg min-w-[90%] md:min-w-[50%] place-self-center hover:ring-4 bg-turqoise-dark hover:bg-turqoise ring-orange text-black rounded-3xl py-6 space-x-6 underline-offset-8 shadow-2xl">
               <button class="text-3xl" onClick={() => {
                 country.isShown = false
                 forceUpdate()
@@ -39,7 +39,7 @@ const DisplayCountries = (props) => {
           )
         } else if (country.isShown === false) {
           return (
-            <div class="font-body max-w-lg min-w-[90%] place-self-center hover:ring-4 text-black ring-orange bg-turqoise-dark hover:bg-turqoise rounded-3xl text-3xl py-6 px-3 shadow-xl underline-offset-8 space-x-6">
+            <div class="font-body max-w-lg min-w-[90%] md:min-w-[50%] place-self-center hover:ring-4 text-black ring-orange bg-turqoise-dark hover:bg-turqoise rounded-3xl text-3xl py-6 px-3 shadow-xl underline-offset-8 space-x-6">
               <button onClick={() => {
                 country.isShown = true
                 let url = `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&APPID=${api_key}`
