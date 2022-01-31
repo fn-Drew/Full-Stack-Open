@@ -46,7 +46,7 @@ const DisplayCountries = (props) => {
                   console.log(`Set ${country.name}, ${country.capital} temperature to ${country.temp}`)
                 })
                 forceUpdate()
-              }}>></button>
+              }}>{'>'}</button>
              <h2 class="underline text-3xl inline-block" > {country.name} </h2>
             </div>
           )
