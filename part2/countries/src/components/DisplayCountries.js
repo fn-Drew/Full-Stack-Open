@@ -1,6 +1,8 @@
 import { useReducer, useEffect } from "react"
 import axios from 'axios'
 
+import { ArrowRight24, ArrowDown24 } from '@carbon/icons-react'
+
 
 const DisplayCountries = (props) => {
   const [, forceUpdate] = useReducer(x => x + 1, 0)
@@ -18,9 +20,10 @@ const DisplayCountries = (props) => {
               <button class="text-3xl" onClick={() => {
                 country.isShown = false
                 forceUpdate()
-              }}>v</button>
+              }}> <ArrowDown24 aria-label="Add" /> </button>
              <h2 class="underline text-3xl inline-block pb-4"> {country.name} </h2>
               <div>
+                
                 <p> Capital: {country.capital} </p>
                 <p> Population: {Number(country.population).toLocaleString()} </p>
               </div>
@@ -46,7 +49,7 @@ const DisplayCountries = (props) => {
                   console.log(`Set ${country.name}, ${country.capital} temperature to ${country.temp}`)
                 })
                 forceUpdate()
-              }}>{'>'}</button>
+              }}><ArrowRight24 aria-label="Add" /></button>
              <h2 class="underline text-3xl inline-block" > {country.name} </h2>
             </div>
           )
