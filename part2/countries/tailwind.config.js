@@ -13,6 +13,14 @@ module.exports = {
       'turqoise-dark' : '#4d9de0',
       'platinum' : '#E5E5E5'
     },
+    fontFamily: {
+      body: [
+        'Karla',
+        'ui-sans-serif',
+        'system-ui',
+        '-apple-system'
+      ]
+    },
 
     extend: {},
   },
