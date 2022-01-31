@@ -15,7 +15,7 @@ function App() {
       .get('https://restcountries.com/v2/all')
       .then(response => {
         setCountries(response.data)
-        setVisibleCountries(countries) 
+        setVisibleCountries(countries)
       })
   }
   useEffect(hook, [])
@@ -24,7 +24,7 @@ function App() {
     event.preventDefault()
     let result = countries.filter(country => country.name.toLowerCase().includes(searchedCountry))
     setSearchedCountry(event.target.value)
-    setVisibleCountries(result.map(v => ({...v, isShown: false})))
+    setVisibleCountries(result.map(v => ({ ...v, isShown: false })))
   }
 
   return (
@@ -33,7 +33,7 @@ function App() {
         <Filter searchedCountry={searchedCountry} handleCountrySearch={handleCountrySearch} />
       </div>
       <div class="grid grid-cols-1 grid-flow-row gap-14 text-center">
-        <DisplayCountries visibleCountries={visibleCountries}/>
+        <DisplayCountries visibleCountries={visibleCountries} />
       </div>
     </div>
   )
