@@ -28,7 +28,7 @@ function App() {
   }
 
   return (
-    <div class="min-h-screen bg-gradient-to-br from-blue-300 to-slate-400">
+    <div class="min-h-screen bg-gradient-to-br from-blue to-black">
       <div class="text-center text-xl p-10">
         <Filter searchedCountry={searchedCountry} handleCountrySearch={handleCountrySearch} />
       </div>

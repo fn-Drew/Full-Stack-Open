@@ -1,8 +1,8 @@
 const Filter = (props) => {
     return (
       <div>
-        <form class="text-slate-900">
-          find countries: <input class="border-blue border-2 p-2 rounded-md shadow-lg focus:outline-none focus:border-grey"
+        <form class="text-platinum">
+          find countries: <input class=" bg-blue p-2 focus:outline-orange focus:outline-1 rounded-md shadow-lg outline-none"
           value={props.searchedCountry}
           onInput={props.handleCountrySearch}
         />

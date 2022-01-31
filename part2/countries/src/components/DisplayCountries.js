@@ -14,7 +14,7 @@ const DisplayCountries = (props) => {
       props.visibleCountries.map(country => {
         if (country.isShown === true) {
           return(
-            <div class="text-slate-100 rounded-3xl bg-slate-700 p-10 m-auto space-x-6 underline-offset-8 shadow-2xl  mx-14">
+            <div class="hover:ring-4 bg-turqoise-dark hover:bg-turqoise ring-orange text-black rounded-3xl  p-10 m-auto space-x-6 underline-offset-8 shadow-2xl mx-14">
               <button class="text-3xl" onClick={() => {
                 country.isShown = false
                 forceUpdate()
@@ -37,7 +37,7 @@ const DisplayCountries = (props) => {
           )
         } else if (country.isShown === false) {
           return(
-            <div class="rounded-3xl text-slate-100 text-3xl p-10 bg-slate-700 mx-14 shadow-xl underline-offset-8 space-x-6">
+            <div class="hover:ring-4 ring-orange bg-turqoise-dark hover:bg-turqoise rounded-3xl text-slate-100 text-3xl p-10 mx-14 shadow-xl underline-offset-8 space-x-6">
               <button onClick={() => {
                 country.isShown = true
                 let url = `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&APPID=${api_key}`
@@ -56,8 +56,8 @@ const DisplayCountries = (props) => {
   } else {
     return(
       <div>
-        <p class="text-4xl"> Please refine your search </p>
-        <p class="text-4xl py-8"> Total Results : {Object.keys(props.visibleCountries).length} </p>
+        <p class="text-platinum text-4xl"> Please refine your search </p>
+        <p class="text-platinum text-4xl py-8"> Total Results : <span class="text-orange" > {Object.keys(props.visibleCountries).length} </span>  </p>
       </div>
     )
   }

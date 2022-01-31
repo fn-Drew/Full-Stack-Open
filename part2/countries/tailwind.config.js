@@ -4,13 +4,15 @@ module.exports = {
     "./public/index.html"
   ],
   theme: {
-    // colors : {
-    //   'grey' : '#8693AB',
-    //   'blue' : '#BDD4E7',
-    //   'raisin' : '#212227',
-    //   'cadet' : '#637074',
-    //   'white' : '#FFFFFF'
-    // },
+    colors : {
+      'white' : '#FFFFFF',
+      'black' : '#000000',
+      'blue' : '#14213D',
+      'orange' : '#FCA311',
+      'turqoise' : '#5aa9e6',
+      'turqoise-dark' : '#4d9de0',
+      'platinum' : '#E5E5E5'
+    },
 
     extend: {},
   },
