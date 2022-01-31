@@ -15,11 +15,11 @@ const DisplayCountries = (props) => {
         if (country.isShown === true) {
           return(
             <div class="text-slate-100 rounded-3xl bg-slate-700 p-10 m-auto space-x-6 underline-offset-8 shadow-2xl  mx-14">
-              <h2 class="underline text-3xl inline-block pb-4"> {country.name} </h2>
               <button class="text-3xl" onClick={() => {
                 country.isShown = false
                 forceUpdate()
               }}>v</button>
+             <h2 class="underline text-3xl inline-block pb-4"> {country.name} </h2>
               <div>
                 <p> Capital: {country.capital} </p>
                 <p> Population: {Number(country.population).toLocaleString()} </p>
@@ -38,7 +38,6 @@ const DisplayCountries = (props) => {
         } else if (country.isShown === false) {
           return(
             <div class="rounded-3xl text-slate-100 text-3xl p-10 bg-slate-700 mx-14 shadow-xl underline-offset-8 space-x-6">
-              <h2 class="underline text-3xl inline-block" > {country.name} </h2>
               <button onClick={() => {
                 country.isShown = true
                 let url = `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&APPID=${api_key}`
@@ -47,7 +46,8 @@ const DisplayCountries = (props) => {
                   console.log(`Set ${country.name}, ${country.capital} temperature to ${country.temp}`)
                 })
                 forceUpdate()
-              }}>^</button>
+              }}>></button>
+             <h2 class="underline text-3xl inline-block" > {country.name} </h2>
             </div>
           )
         }
