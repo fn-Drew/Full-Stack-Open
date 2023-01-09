@@ -1,5 +1,4 @@
 const express = require('express')
-const morgan = require('morgan')
 const app = express()
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -9,19 +8,7 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
-
-// FSO says to use morgan here but it seems very abandoned +
-// gives deprecated errors in console when I attempt to use it
-
-// // morgan('tiny')
-
-// // morgan.token('id', () => (request, response) {
-// return request.id
-// })
-
-
 app.use(express.json())
-app.use(morgan)
 app.use(requestLogger)
 
 let phonebook = [
@@ -53,6 +40,10 @@ const generateId = () => {
     : 0
   return maxId + 1
 }
+
+app.get('/', (request, response) => {
+  response.send('<h1>Home<h1>')
+})
 
 app.get('/api/persons', (request, response) => {
   response.json(phonebook)
