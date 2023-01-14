@@ -23,6 +23,8 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
+    axios.post('http://localhost:3001/api/persons', { name: newName, number: newNumber })
+
     if (JSON.stringify(persons).includes(JSON.stringify(newName))) {
       alert(`${newName} is already in the phonebook.`)
       setNewName('')
