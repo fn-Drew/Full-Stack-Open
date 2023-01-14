@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -5,108 +6,98 @@ const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:', request.path)
   console.log('Body:', request.body)
-  console.log('---')
+  console.log('---' * 10)
   next()
+}
+
+const errorHandler = (error, request, response, next) => {
+  console.log(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400, send({ error: 'malformatted id' }))
+  }
+
+  next(error)
 }
 
 app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
 app.use(requestLogger)
+// this has to be last loaded middleware
+app.use(errorHandler)
 
-let phonebook = [
-  {
-    "id": 1,
-    "name": "Arto Hellas",
-    "number": "040-123456"
-  },
-  {
-    "id": 2,
-    "name": "Ada Lovelace",
-    "number": "39-44-5323523"
-  },
-  {
-    "id": 3,
-    "name": "Dan Abramov",
-    "number": "12-43-234345"
-  },
-  {
-    "id": 4,
-    "name": "Mary Poppendieck",
-    "number": "39-23-6423122"
-  }
-]
-
-const generateId = () => {
-  const maxId = phonebook.length > 0
-    ? Math.max(...phonebook.map(n => n.id))
-    : 0
-  return maxId + 1
-}
+const Person = require('./models/person')
+const { db } = require('./models/person')
 
 app.get('/', (request, response) => {
   response.send('<h1>Home<h1>')
 })
 
 app.get('/api/persons', (request, response) => {
-  response.json(phonebook)
+  Person.find({}).then(phonebook => {
+    response.json(phonebook)
+  })
 })
 
+//displays number of people in the database with the Person schema
 app.get('/info', (request, response) => {
-  response.send(`Phonebook has info for ${phonebook.length} people <br>${new Date()} </br>`)
+  Person.find({}).then(phonebook => {
+    response.send(`Phonebook has info for ${phonebook.length} people <br>${new Date()} </br>`)
+  })
 })
 
+//find single person based on id e.g. localhost:3001/api/persons/63beb2f1a0b0f5ef1f50812e
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id) - 1
-  const person = phonebook.find(person => person.id === id)
-
-  if (person) {
-    response.json(phonebook[id])
-  } else {
-    response.status(404).send('ERROR 404: Person not found').end()
-  }
+  Person.findById(request.params.id).then(person => {
+    response.json(person)
+  })
 })
 
-app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params)
-})
-
+// Delete person based on id 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  phonebook = phonebook.filter(person => person.id !== id)
-
-  response.status(204).end()
+  Person.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+
+// Add new person / update number for existing person
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error: 'content missing'
-    })
+  // If name or number not provided throw error
+  if (body.name === undefined) {
+    return response.status(400).json({ error: 'content missing' })
+  }
+  if (body.number === undefined) {
+    return response.status(400).json({ error: 'content missing' })
   }
 
-  // if name or number already are in phonebook throw error
-  if (phonebook.find(person => person.name === body.name) || phonebook.find(person => person.number === body.number)) {
-    return response.status(400).json({
-      error: 'name and number must be unique'
-    })
-  }
+  const filter = ({ name: body.name })
+  const update = ({ number: body.number })
 
-  const person = {
-    id: generateId(),
+  // If name already exists, update wtih the new number
+  Person.findOneAndUpdate(filter, update, { new: true })
+    .then(updatedNote => {
+      response.json(updatedNote)
+    })
+    .catch(error => next(error))
+
+  const person = new Person({
     name: body.name,
     number: body.number,
-    serial: Math.floor(Math.random() * (Math.floor(9 ** 10) - Math.ceil(0)))
-  }
+  })
 
-  phonebook = phonebook.concat(person)
-
-  response.json(person)
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
+    .catch(error => next(error))
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`)
