@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DisplayPersons from './components/DisplayPersons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import ErrorMessage from './components/ErrorMessage'
 import axios from 'axios'
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchedName, setSearchedName] = useState('')
+  const [error, setError] = useState('')
 
   const hook = () => {
     axios
@@ -23,22 +25,19 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
-    axios.post('http://localhost:3001/api/persons', { name: newName, number: newNumber })
+    axios
+      .post('http://localhost:3001/api/persons', { name: newName, number: newNumber })
+      .catch(error => {
+        console.log(error.response.data.error)
+        console.log(typeof error.response.data.error)
+        setError(error.response.data.error)
+      })
 
     if (JSON.stringify(persons).includes(JSON.stringify(newName))) {
       alert(`${newName} is already in the phonebook.`)
       setNewName('')
     } else if (JSON.stringify(persons).includes(JSON.stringify(newNumber))) {
       alert(`${newNumber} is already in the phonebook.`)
-      setNewNumber('')
-    } else {
-      const personObject = {
-        name: newName,
-        number: newNumber
-      }
-
-      setPersons(persons.concat(personObject))
-      setNewName('')
       setNewNumber('')
     }
   }
@@ -60,6 +59,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <ErrorMessage error={error} />
       <Filter searchedName={searchedName} handleNameSearch={handleNameSearch} />
       <h3>Add New Person</h3>
       <PersonForm addPerson={addPerson}
