@@ -45,6 +45,7 @@ app.get('/api/blogs', (request, response) => {
 })
 
 app.post('/api/blogs', (request, response) => {
+    console.log(request.body)
     const blog = new Blog(request.body)
 
     blog
@@ -54,6 +55,6 @@ app.post('/api/blogs', (request, response) => {
         })
 })
 
-app.listen(PORT, () => {
+app.listen(config.PORT, () => {
     logger.info(`Server running on port ${config.PORT}`)
 })
