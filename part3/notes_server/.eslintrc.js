@@ -6,6 +6,11 @@ module.exports = {
     },
     'extends': 'eslint:recommended',
     'overrides': [
+        {
+            'env': {
+                'jest': true
+            }
+        }
     ],
     'parserOptions': {
         'ecmaVersion': 'latest'
