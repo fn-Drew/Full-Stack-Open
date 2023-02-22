@@ -22,18 +22,23 @@ beforeEach(async () => {
     await Promise.all(promiseArray)
 })
 
-test('blogs are returned', async () => {
+test('blogs are returned as json', async () => {
     await api
         .get('/api/blogs/')
         .expect(200)
         .expect('Content-Type', /application\/json/)
 }, 10000)
 
+test('all blogs are returned', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body).toHaveLength(helper.blogs.length)
+})
+
 describe("get total likes", () => {
 
     test('total likes', () => {
         const result = helper.totalLikes(helper.blogs)
-        expect(result).toBe(40)
+        expect(result).toBe(36)
     })
 
     test('when there is only one blog, equals the likes of that', () => {
