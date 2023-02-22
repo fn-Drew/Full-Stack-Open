@@ -1,3 +1,27 @@
+const blogs = [
+    {
+        "title": "woah title of the post",
+        "likes": 2
+    },
+    {
+        "title": "another title yipee",
+        "likes": 8
+    },
+    {
+        "title": "ega goga!!!",
+        "likes": 30
+    }
+]
+
+const blogWithOnePost = [
+    {
+        "title": "ega goga!!!",
+        "likes": 30
+    }
+]
+
+const emptyList = []
+
 const totalLikes = (blogs) => {
     const likes = []
     blogs.map((blog) => likes.push(blog.likes))
@@ -12,5 +36,8 @@ const mostLikes = (blogs) => {
 
 module.exports = {
     totalLikes,
-    mostLikes
+    mostLikes,
+    blogs,
+    blogWithOnePost,
+    emptyList
 }
