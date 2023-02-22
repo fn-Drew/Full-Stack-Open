@@ -1,8 +1,9 @@
 {
     "scripts": {
-        "dev": "nodemon app.js",
-        "test": "jest --verbose",
-        "testleaks": "jest --verbose --runInBand --detectOpenHandles"
+        "start": "NODE_ENV=production node index.js",
+        "dev": "NODE_ENV=development nodemon app.js",
+        "test": "NODE_ENV=test jest --verbose",
+        "testleaks": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles"
     },
     "devDependencies": {
         "jest": "^29.4.3",
