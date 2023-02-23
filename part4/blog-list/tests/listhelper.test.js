@@ -82,6 +82,18 @@ describe('creating new posts', () => {
         expect(newBlogLikes).toBe(0)
     })
 
+    test('cannot add blog with no title', async () => {
+
+        await api
+            .post('/api/blogs/')
+            .send(missingBlog)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        expect(blogsAtEnd).toHaveLength(helper.blogs.length)
+
+    })
 })
 
 describe('like validation', () => {
