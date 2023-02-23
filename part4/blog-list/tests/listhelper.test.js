@@ -22,19 +22,69 @@ beforeEach(async () => {
     await Promise.all(promiseArray)
 })
 
-test('blogs are returned as json', async () => {
-    await api
-        .get('/api/blogs/')
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
-}, 10000)
+describe('validate initial blog data', () => {
 
-test('all blogs are returned', async () => {
-    const response = await api.get('/api/blogs')
-    expect(response.body).toHaveLength(helper.blogs.length)
+    test('blogs are returned as json', async () => {
+        await api
+            .get('/api/blogs/')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+    }, 10000)
+
+    test('all blogs are returned', async () => {
+        const response = await api.get('/api/blogs')
+        expect(response.body).toHaveLength(helper.blogs.length)
+    })
+
+    test('blog has _id', async () => {
+        const response = await api.get('/api/blogs')
+
+        expect(response.body[1]._id).toBeDefined()
+    })
+
 })
 
-describe("get total likes", () => {
+describe('creating new posts', () => {
+
+    const newBlog = {
+        title: "New Blog",
+        author: "Michael Chan",
+        url: "https://newblog.com/",
+    }
+
+    const missingBlog = {
+        author: "Michael Chan",
+        url: "https://newblog.com/",
+    }
+
+
+    test('can create new blog', async () => {
+
+        await api
+            .post('/api/blogs/')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        expect(blogsAtEnd).toHaveLength(helper.blogs.length + 1)
+    })
+
+    test('likes default to 0', async () => {
+        await api
+            .post('/api/blogs/')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        const newBlogLikes = blogsAtEnd[blogsAtEnd.length - 1].likes
+        expect(newBlogLikes).toBe(0)
+    })
+
+})
+
+describe('like validation', () => {
 
     test('total likes', () => {
         const result = helper.totalLikes(helper.blogs)
@@ -50,9 +100,6 @@ describe("get total likes", () => {
         const result = helper.totalLikes(helper.emptyList)
         expect(result).toBe(0)
     })
-
-})
-describe("get most likes", () => {
 
     test('return blog with most likes', () => {
         const result = helper.mostLikes(helper.blogs)
