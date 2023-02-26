@@ -9,28 +9,13 @@ const User = require('../models/user')
 beforeEach(async () => {
     await User.deleteMany({})
 
-    // create an array of users from the User constructor
-    const userObjects = helper.initialNotes.map(user => new User(user))
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'root', passwordHash })
 
-    // create an array of promises for saving each item in the database
-    const promiseArray = userObjects.map(user => user.save())
-
-    // waits until every promise for saving a user is fulfilled
-    await Promise.all(promiseArray)
-
+    await user.save()
 })
 
-//...
-
 describe('when there is initially one user in db', () => {
-    beforeEach(async () => {
-        await User.deleteMany({})
-
-        const passwordHash = await bcrypt.hash('sekret', 10)
-        const user = new User({ username: 'root', passwordHash })
-
-        await user.save()
-    })
 
     test('creation succeeds with a fresh username', async () => {
         const usersAtStart = await helper.usersInDb()
