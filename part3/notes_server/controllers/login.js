@@ -30,7 +30,11 @@ loginRouter.post('/', async (request, response) => {
     }
 
     // token is digitally signed using a string from the env SECRET
-    const token = jwt.sign(userForToken, process.env.SECRET)
+    const token = jwt.sign(
+        userForToken,
+        process.env.SECRET,
+        { expiresIn: 60 * 60 }
+    )
 
     response
         .status(200)
