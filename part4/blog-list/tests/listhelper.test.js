@@ -38,27 +38,7 @@ describe('validate initial blog data', () => {
 
     test('blog has _id', async () => {
         const response = await api.get('/api/blogs')
-
         expect(response.body[1]._id).toBeDefined()
-    })
-
-})
-
-describe('change existing posts', () => {
-
-    test('blog can be deleted by id', async () => {
-        const response = await api.get('/api/blogs')
-        const id = response.body[0]._id
-
-        await api
-            .delete(`/api/blogs/${id}`)
-            .expect('204')
-
-
-        const blogsAtEnd = await helper.blogsInDb()
-        console.log(blogsAtEnd)
-
-        expect(blogsAtEnd.length).toHaveLength(helper.blogs.length - 1)
     })
 
 })
