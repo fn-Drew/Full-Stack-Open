@@ -1,4 +1,5 @@
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const blogs = [
     {
@@ -60,6 +61,11 @@ const mostLikes = (blogs) => {
     return blogs.reduce((prev, current) => (+prev.likes > +current.likes) ? prev : current)
 }
 
+const usersInDb = async () => {
+    const users = await User.find({})
+    return users.map(user => user)
+}
+
 const blogsInDb = async () => {
     const blogs = await Blog.find({})
     return blogs.map(blog => blog)
@@ -69,6 +75,7 @@ module.exports = {
     totalLikes,
     mostLikes,
     blogsInDb,
+    usersInDb,
     blogs,
     blogWithOnePost,
     emptyList
