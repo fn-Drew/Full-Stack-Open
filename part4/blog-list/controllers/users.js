@@ -12,16 +12,11 @@ usersRouter.get('/', async (request, response) => {
 usersRouter.post('/', async (request, response, next) => {
     const user = new User(request.body)
 
-    try {
-        await user
-            .save()
-            .then(result => {
-                response.status(201).json(result)
-            })
-    } catch (err) {
-        next(err)
-        response.status(400).json(err)
-    }
+    await user
+        .save()
+        .then(result => {
+            response.status(201).json(result)
+        })
 
 })
 

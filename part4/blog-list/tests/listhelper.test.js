@@ -36,9 +36,9 @@ describe('validate initial blog data', () => {
         expect(response.body).toHaveLength(helper.blogs.length)
     })
 
-    test('blog has _id', async () => {
+    test('blog has id', async () => {
         const response = await api.get('/api/blogs')
-        expect(response.body[1]._id).toBeDefined()
+        expect(response.body[1].id).toBeDefined()
     })
 
 })
@@ -55,7 +55,6 @@ describe('creating new posts', () => {
         author: "Michael Chan",
         url: "https://newblog.com/",
     }
-
 
     test('can create new blog', async () => {
 
@@ -93,6 +92,23 @@ describe('creating new posts', () => {
         expect(blogsAtEnd).toHaveLength(helper.blogs.length)
 
     })
+})
+
+
+describe('deleting posts', () => {
+
+    test('delete blog by id', async () => {
+        const blogs = await api.get('/api/blogs')
+        console.log(blogs.body)
+        const id = blogs.body[0].id
+        await api
+            .delete(`/api/blogs/${id}`)
+            .expect(204)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        expect(blogsAtEnd).toHaveLength(helper.blogs.length - 1)
+    })
+
 })
 
 describe('like validation', () => {
