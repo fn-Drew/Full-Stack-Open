@@ -94,12 +94,10 @@ describe('creating new posts', () => {
     })
 })
 
-
-describe('deleting posts', () => {
+describe('mutating existing posts', () => {
 
     test('delete blog by id', async () => {
         const blogs = await api.get('/api/blogs')
-        console.log(blogs.body)
         const id = blogs.body[0].id
         await api
             .delete(`/api/blogs/${id}`)
@@ -108,6 +106,31 @@ describe('deleting posts', () => {
         const blogsAtEnd = await helper.blogsInDb()
         expect(blogsAtEnd).toHaveLength(helper.blogs.length - 1)
     })
+
+    // works but doesn't keep the same id. although idk if it should?
+    test('edit blog by id', async () => {
+        const blogs = await api.get('/api/blogs')
+        const startBlog = blogs.body[0]
+        const newBlog = {
+            title: "React patterns NEW",
+            author: "Michael Chan",
+            url: "https://reactpatterns.com/",
+            likes: 23,
+        }
+
+        await api
+            .put(`/api/blogs/${startBlog.id}`)
+            .send(newBlog)
+            .expect(200)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        expect(blogsAtEnd).toHaveLength(helper.blogs.length)
+        expect(newBlog.title).toBe(blogsAtEnd[0].title)
+        expect(newBlog.author).toBe(blogsAtEnd[0].author)
+        expect(newBlog.likes).toBe(blogsAtEnd[0].likes)
+        expect(newBlog.url).toBe(blogsAtEnd[0].url)
+    })
+
 
 })
 
