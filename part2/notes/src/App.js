@@ -33,11 +33,6 @@ const App = () => {
             setUser(user)
             noteService.setToken(user.token)
         }
-        noteService
-            .getAll()
-            .then(initialNotes => {
-                setNotes(initialNotes)
-            })
     }, [])
 
     const handleLogin = async (event) => {

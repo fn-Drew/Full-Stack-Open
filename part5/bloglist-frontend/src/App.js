@@ -18,13 +18,44 @@ const App = () => {
         )
     }, [])
 
+    // on page load check if user has logged in before
+    useEffect(() => {
+        const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+        if (loggedUserJSON) {
+            const user = JSON.parse(loggedUserJSON)
+            setUser(user)
+            blogService.setToken(user.token)
+        }
+    }, [])
+
     const handleLogin = async (event) => {
         event.preventDefault()
-        const user = await loginService.login({ username, password, })
-        setUser(user)
-        setUsername('')
-        setPassword('')
+        try {
+            const user = await loginService.login({ username, password, })
+            window.localStorage.setItem(
+                'loggedNoteappUser', JSON.stringify(user)
+            )
+            blogService.setToken(user.token)
+            setUser(user)
+            setUsername('')
+            setPassword('')
+        } catch (err) {
+            console.error(err)
+        }
     }
+
+    const handleLogout = () => {
+        window.localStorage.removeItem(
+            'loggedNoteappUser'
+        )
+        setUser(null)
+    }
+
+    const LogoutButton = () => (
+        <button onClick={handleLogout}>
+            logout
+        </button>
+    )
 
     const loginForm = () => (
         <form onSubmit={handleLogin}>
@@ -55,6 +86,7 @@ const App = () => {
             {user ?
                 <>
                     <p> {user.name} logged in </p>
+                    <LogoutButton />
                     <h2>blogs</h2>
                     {blogs.map(blog =>
                         <Blog key={blog.id} blog={blog} />
