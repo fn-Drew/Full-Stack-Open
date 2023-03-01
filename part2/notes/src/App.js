@@ -28,6 +28,7 @@ const App = () => {
         event.preventDefault()
         try {
             const user = await loginService.login({ username, password, })
+            noteService.setToken(user.token)
             setUser(user)
             setUsername('')
             setPassword('')
@@ -124,7 +125,11 @@ const App = () => {
             <Notification message={errorMessage} />
 
             {user ?
-                noteForm() :
+                <>
+                    <p> {user.name} logged in </p>
+                    {noteForm()}
+                </>
+                :
                 loginForm()
             }
 
@@ -135,15 +140,18 @@ const App = () => {
             </div>
             <ul>
                 {notesToShow.map(note =>
-                    <Note
-                        key={note.id}
-                        note={note}
-                        toggleImportance={() => toggleImportanceOf(note.id)}
-                    />
+                    note ?
+                        <Note
+                            key={note.id}
+                            note={note}
+                            toggleImportance={() => toggleImportanceOf(note.id)}
+                        />
+                        :
+                        null
                 )}
             </ul>
             <Footer />
-        </div>
+        </div >
     )
 }
 
