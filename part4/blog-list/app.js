@@ -18,7 +18,7 @@ logger.info('Connected to server: ', config.MONGODB_URI)
 
 mongoose.connect(config.MONGODB_URI)
     .then(() => {
-        logger.info('connected to MongoDB')
+        logger.info('mama mia')
     })
     .catch((error) => {
         logger.error('error connecting to MongoDB:', error.message)

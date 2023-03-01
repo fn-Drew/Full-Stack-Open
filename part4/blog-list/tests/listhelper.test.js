@@ -6,15 +6,13 @@ const helper = require('../utils/list_helper')
 
 const api = supertest(app)
 
-// come back and do 4.6 and 4.7 at some point
-
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
 
-    // create an array of notes from the Note constructor
+    // create an array of blogs from the blogs constructor
     const blogObjects = helper.blogs.map(blog => new Blog(blog))
 
     // create an array of promises for saving each item in the database
@@ -48,6 +46,8 @@ describe('validate initial blog data', () => {
 
 describe('creating new posts', () => {
 
+    let token = ''
+
     const newBlog = {
         title: "New Blog",
         author: "Michael Chan",
@@ -64,11 +64,22 @@ describe('creating new posts', () => {
 
         const passwordHash = await bcrypt.hash('sekret', 10)
         const user = new User({ username: 'root', name: 'bean', passwordHash })
+        const loginUser = {
+            username: 'root',
+            password: 'sekret',
+        }
+        await user.save()
 
         newBlog.userId = user.id
         missingBlog.userId = user.id
 
-        await user.save()
+        const response = await api
+            .post('/api/login/')
+            .send(loginUser)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        token = response.body.token
     })
 
 
@@ -77,6 +88,7 @@ describe('creating new posts', () => {
         await api
             .post('/api/blogs/')
             .send(newBlog)
+            .set('Authorization', `Bearer ${token}`)
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
@@ -88,6 +100,7 @@ describe('creating new posts', () => {
         await api
             .post('/api/blogs/')
             .send(newBlog)
+            .set('Authorization', `Bearer ${token}`)
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
@@ -101,28 +114,27 @@ describe('creating new posts', () => {
         await api
             .post('/api/blogs/')
             .send(missingBlog)
+            .set('Authorization', `Bearer ${token}`)
             .expect(400)
             .expect('Content-Type', /application\/json/)
 
         const blogsAtEnd = await helper.blogsInDb()
         expect(blogsAtEnd).toHaveLength(helper.blogs.length)
 
-
-
     })
 })
 
 describe('mutating existing posts', () => {
 
-    test('delete blog by id', async () => {
+    test("cannot delete blog you didn't make", async () => {
         const blogs = await api.get('/api/blogs')
         const id = blogs.body[0].id
         await api
             .delete(`/api/blogs/${id}`)
-            .expect(204)
+            .expect(401)
 
         const blogsAtEnd = await helper.blogsInDb()
-        expect(blogsAtEnd).toHaveLength(helper.blogs.length - 1)
+        expect(blogsAtEnd).toHaveLength(helper.blogs.length)
     })
 
     // works but doesn't keep the same id. although idk if it should?
@@ -148,7 +160,6 @@ describe('mutating existing posts', () => {
         expect(newBlog.likes).toBe(blogsAtEnd[0].likes)
         expect(newBlog.url).toBe(blogsAtEnd[0].url)
     })
-
 
 })
 
