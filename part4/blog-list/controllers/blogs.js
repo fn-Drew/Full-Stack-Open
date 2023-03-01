@@ -12,6 +12,12 @@ blogsRouter.post('/', async (request, response) => {
 
     const user = await User.findById(body.userId)
 
+    if (!user.id) {
+        response.status(400).json({
+            error: "user id is required when posting"
+        })
+    }
+
     const blog = new Blog({
         title: body.title,
         author: body.author,
@@ -21,6 +27,7 @@ blogsRouter.post('/', async (request, response) => {
     })
 
     const savedBlog = await blog.save()
+
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
 

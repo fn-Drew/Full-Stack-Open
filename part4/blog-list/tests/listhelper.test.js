@@ -58,6 +58,18 @@ describe('creating new posts', () => {
         url: "https://newblog.com/",
     }
 
+    beforeEach(async () => {
+        await User.deleteMany({})
+
+        const passwordHash = await bcrypt.hash('sekret', 10)
+        const user = new User({ username: 'root', name: 'bean', passwordHash })
+
+        newBlog.userId = user.id
+        missingBlog.userId = user.id
+
+        await user.save()
+    })
+
     test('can create new blog', async () => {
 
         await api
@@ -145,7 +157,6 @@ describe('when there is initially one user in db', () => {
 
         await user.save()
     })
-
     test('creation succeeds with a fresh username', async () => {
         const usersAtStart = await helper.usersInDb()
 
