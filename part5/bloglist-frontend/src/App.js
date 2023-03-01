@@ -2,10 +2,14 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import ErrorNotification from './components/ErrorNotification'
+import ConfirmNotification from './components/ConfirmNotification'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
     const [newBlog, setNewBlog] = useState('')
+    const [errorMessage, setErrorMessage] = useState(null)
+    const [confirmMessage, setConfirmMessage] = useState(null)
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -38,8 +42,16 @@ const App = () => {
             setUser(user)
             setUsername('')
             setPassword('')
+            setConfirmMessage('User logged in!')
+            setTimeout(() => {
+                setConfirmMessage(null)
+            }, 5000)
+
         } catch (err) {
-            console.error(err)
+            setErrorMessage('Wrong credentials')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000)
         }
     }
 
@@ -48,6 +60,11 @@ const App = () => {
             'loggedBlogAppUser'
         )
         setUser(null)
+        setConfirmMessage('You logged out')
+        setTimeout(() => {
+            setConfirmMessage(null)
+        }, 5000)
+
     }
 
     const LogoutButton = () => (
@@ -91,6 +108,10 @@ const App = () => {
             .then(returnedBlog => {
                 setBlogs(blogs.concat(returnedBlog))
             })
+        setConfirmMessage('Posted blog!')
+        setTimeout(() => {
+            setConfirmMessage(null)
+        }, 5000)
     }
 
     //fine
@@ -110,6 +131,8 @@ const App = () => {
 
     return (
         <div>
+            <ErrorNotification message={errorMessage} />
+            <ConfirmNotification message={confirmMessage} />
             {user ?
                 <>
                     <p> {user.name} logged in </p>
