@@ -5,12 +5,11 @@ import loginService from './services/login'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
-
+    const [newBlog, setNewBlog] = useState('')
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
-
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -20,7 +19,7 @@ const App = () => {
 
     // on page load check if user has logged in before
     useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+        const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
             setUser(user)
@@ -33,7 +32,7 @@ const App = () => {
         try {
             const user = await loginService.login({ username, password, })
             window.localStorage.setItem(
-                'loggedNoteappUser', JSON.stringify(user)
+                'loggedBlogAppUser', JSON.stringify(user)
             )
             blogService.setToken(user.token)
             setUser(user)
@@ -46,7 +45,7 @@ const App = () => {
 
     const handleLogout = () => {
         window.localStorage.removeItem(
-            'loggedNoteappUser'
+            'loggedBlogAppUser'
         )
         setUser(null)
     }
@@ -81,15 +80,47 @@ const App = () => {
         </form>
     )
 
+    const addBlog = (event) => {
+        event.preventDefault()
+        const blogObject = {
+            title: newBlog,
+            author: user.name,
+        }
+        blogService
+            .create(blogObject)
+            .then(returnedBlog => {
+                setBlogs(blogs.concat(returnedBlog))
+            })
+    }
+
+    //fine
+    const handleBlogChange = (event) => {
+        setNewBlog(event.target.value)
+    }
+
+    const blogForm = () => (
+        <form onSubmit={addBlog}>
+            <input
+                value={newBlog}
+                onChange={handleBlogChange}
+            />
+            <button type="submit">save</button>
+        </form>
+    )
+
     return (
         <div>
             {user ?
                 <>
                     <p> {user.name} logged in </p>
                     <LogoutButton />
+                    {blogForm()}
                     <h2>blogs</h2>
                     {blogs.map(blog =>
-                        <Blog key={blog.id} blog={blog} />
+                        blog ?
+                            <Blog key={blog.id} blog={blog} />
+                            :
+                            null
                     )}
                 </>
                 :

@@ -54,23 +54,6 @@ const App = () => {
         }
     }
 
-    const addNote = (event) => {
-        event.preventDefault()
-        const noteObject = {
-            content: newNote,
-            date: new Date().toISOString(),
-            important: Math.random() > 0.5,
-            id: notes.length + 1,
-        }
-
-        noteService
-            .create(noteObject)
-            .then(returnedNote => {
-                setNotes(notes.concat(returnedNote))
-                setNewNote('')
-            })
-    }
-
     const loginForm = () => (
         <form onSubmit={handleLogin}>
             <div>
@@ -94,6 +77,23 @@ const App = () => {
             <button type="submit">login</button>
         </form>
     )
+
+    const addNote = (event) => {
+        event.preventDefault()
+        const noteObject = {
+            content: newNote,
+            date: new Date().toISOString(),
+            important: Math.random() > 0.5,
+            id: notes.length + 1,
+        }
+
+        noteService
+            .create(noteObject)
+            .then(returnedNote => {
+                setNotes(notes.concat(returnedNote))
+                setNewNote('')
+            })
+    }
 
     const noteForm = () => (
         <form onSubmit={addNote}>
