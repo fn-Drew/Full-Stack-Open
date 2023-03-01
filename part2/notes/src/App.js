@@ -16,7 +16,23 @@ const App = () => {
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
 
+    // get all notes on page load
     useEffect(() => {
+        noteService
+            .getAll()
+            .then(initialNotes => {
+                setNotes(initialNotes)
+            })
+    }, [])
+
+    // on page load check if user has logged in before
+    useEffect(() => {
+        const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+        if (loggedUserJSON) {
+            const user = JSON.parse(loggedUserJSON)
+            setUser(user)
+            noteService.setToken(user.token)
+        }
         noteService
             .getAll()
             .then(initialNotes => {
@@ -28,6 +44,9 @@ const App = () => {
         event.preventDefault()
         try {
             const user = await loginService.login({ username, password, })
+            window.localStorage.setItem(
+                'loggedNoteappUser', JSON.stringify(user)
+            )
             noteService.setToken(user.token)
             setUser(user)
             setUsername('')
