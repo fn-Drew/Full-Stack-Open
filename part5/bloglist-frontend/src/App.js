@@ -142,27 +142,34 @@ const App = () => {
         </form>
     )
 
-    const likePost = (event) => {
-        event.preventDefault()
+    const likePost = ({ blog }) => {
         const blogObject = {
-            title: newBlog.title,
-            author: user.name,
-            url: newBlog.url,
+            title: blog.title,
+            author: blog.name,
+            url: blog.url,
+            user: blog.user,
+            likes: blog.likes++,
+            id: blog.id,
         }
+
+        const pos = blogs.map(e => e.id).indexOf(blog.id)
+        console.log(pos)
+
         blogService
             .put(blogObject)
+            .then((returnedBlog) => setBlogs(blogs.splice(pos, 1, returnedBlog)))
 
-        setConfirmMessage('Posted blog!')
+        setConfirmMessage('Liked post!')
         setTimeout(() => {
             setConfirmMessage(null)
         }, 5000)
 
     }
 
-    const LikeButton = () => (
-        <button onClick={() => likePost()}>
+    const LikeButton = ({ blog }) => (
+        <button onClick={() => likePost({ blog })}>
             like
-        </button>
+        </button >
     )
 
     return (
@@ -179,7 +186,7 @@ const App = () => {
                         blog ?
                             <>
                                 <Blog key={blog.id} blog={blog} />
-                                <LikeButton />
+                                <LikeButton blog={blog} />
                             </>
                             :
                             null
