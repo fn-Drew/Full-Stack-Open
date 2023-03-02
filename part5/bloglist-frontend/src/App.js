@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import SortButton from './components/SortButton'
 import DeleteButton from './components/DeleteButton'
+import Button from './components/Button'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import ErrorNotification from './components/ErrorNotification'
@@ -69,12 +70,6 @@ const App = () => {
         }, 5000)
 
     }
-
-    const LogoutButton = () => (
-        <button onClick={handleLogout}>
-            logout
-        </button>
-    )
 
     const loginForm = () => (
         <form onSubmit={handleLogin}>
@@ -145,14 +140,14 @@ const App = () => {
         </form>
     )
 
-    const likeBlog = ({ blog }) => {
+    const likeBlog = ({ mutableItem }) => {
         const blogObject = {
-            title: blog.title,
-            author: blog.name,
-            url: blog.url,
-            user: blog.user,
-            likes: ++blog.likes,
-            id: blog.id,
+            title: mutableItem.title,
+            author: mutableItem.name,
+            url: mutableItem.url,
+            user: mutableItem.user,
+            likes: ++mutableItem.likes,
+            id: mutableItem.id,
         }
         blogService
             .put(blogObject)
@@ -163,27 +158,25 @@ const App = () => {
         }, 5000)
     }
 
-    const LikeButton = ({ blog }) => (
-        <button onClick={() => likeBlog({ blog })}>
-            like
-        </button >
-    )
-
-    const deleteBlog = ({ blog }) => {
+    const deleteBlog = ({ mutableItem }) => {
         if (window.confirm("Do you really want to delete the post?")) {
             const mutableBlogs = blogs
 
-            const pos = mutableBlogs.findIndex(mutableBlog => mutableBlog.id === blog.id)
-            mutableBlogs.splice(pos, 1)
+            if (mutableItem) {
+                const pos = mutableBlogs.findIndex(mutableBlog => mutableBlog.id === mutableItem.id)
+                mutableBlogs.splice(pos, 1)
 
-            blogService
-                .remove(blog)
-                .then(() => setBlogs(mutableBlogs))
+                blogService
+                    .remove(mutableItem)
+                    .then(() => setBlogs(mutableBlogs))
 
-            setConfirmMessage('Deleted blog!')
-            setTimeout(() => {
-                setConfirmMessage(null)
-            }, 5000)
+                setConfirmMessage('Deleted blog!')
+                setTimeout(() => {
+                    setConfirmMessage(null)
+                }, 5000)
+            } else {
+                console.error('blog is ', mutableItem)
+            }
         }
     }
 
@@ -212,7 +205,6 @@ const App = () => {
         }
     }
 
-
     return (
         <div>
             <ErrorNotification message={errorMessage} />
@@ -220,18 +212,24 @@ const App = () => {
             {user ?
                 <>
                     <p> {user.name} logged in </p>
-                    <LogoutButton />
+                    <Button text='logout' mutatingFunction={handleLogout} />
                     {blogForm()}
                     <h2>blogs</h2>
-                    <SortButton sortBlogs={sortBlogs} sorted={sorted} />
+                    <Button
+                        text={sorted ?
+                            'alphabetical'
+                            :
+                            'likes'
+                        }
+                        mutatingFunction={sortBlogs}
+                    />
                     {
                         blogs.map(blog =>
                             blog ?
                                 <div key={blog.id}>
                                     <Blog blog={blog} />
-                                    {/* button could be refactored into single button component */}
-                                    <LikeButton blog={blog} />
-                                    <DeleteButton blog={blog} deleteBlog={deleteBlog} />
+                                    <Button text='like' mutableItem={blog} mutatingFunction={likeBlog} />
+                                    <Button text='delete' mutableItem={blog} mutatingFunction={deleteBlog} />
                                 </div>
                                 :
                                 null
