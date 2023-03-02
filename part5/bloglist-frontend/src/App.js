@@ -167,14 +167,21 @@ const App = () => {
     )
 
     const deleteBlog = ({ blog }) => {
+        if (window.confirm("Do you really want to delete the post?")) {
+            const mutableBlogs = blogs
 
-        blogService
-            .remove(blog)
+            const pos = mutableBlogs.findIndex(mutableBlog => mutableBlog.id === blog.id)
+            mutableBlogs.splice(pos, 1)
 
-        setConfirmMessage('Deleted blog!')
-        setTimeout(() => {
-            setConfirmMessage(null)
-        }, 5000)
+            blogService
+                .remove(blog)
+                .then(() => setBlogs(mutableBlogs))
+
+            setConfirmMessage('Deleted blog!')
+            setTimeout(() => {
+                setConfirmMessage(null)
+            }, 5000)
+        }
     }
 
     const DeleteButton = ({ blog }) => (
