@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import SortButton from './components/SortButton'
-import DeleteButton from './components/DeleteButton'
 import Button from './components/Button'
 import blogService from './services/blogs'
 import loginService from './services/login'
