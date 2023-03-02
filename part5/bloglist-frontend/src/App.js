@@ -148,22 +148,16 @@ const App = () => {
             author: blog.name,
             url: blog.url,
             user: blog.user,
-            likes: blog.likes++,
+            likes: ++blog.likes,
             id: blog.id,
         }
-
-        const pos = blogs.map(e => e.id).indexOf(blog.id)
-        console.log(pos)
-
         blogService
             .put(blogObject)
-            .then((returnedBlog) => setBlogs(blogs.splice(pos, 1, returnedBlog)))
 
         setConfirmMessage('Liked post!')
         setTimeout(() => {
             setConfirmMessage(null)
         }, 5000)
-
     }
 
     const LikeButton = ({ blog }) => (
