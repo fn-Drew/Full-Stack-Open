@@ -161,7 +161,10 @@ const App = () => {
             const mutableBlogs = blogs
 
             if (mutableItem) {
-                const pos = mutableBlogs.findIndex(mutableBlog => mutableBlog.id === mutableItem.id)
+                const pos = mutableBlogs.findIndex(mutableBlog => (
+                    mutableBlog.id === mutableItem.id
+                ))
+
                 mutableBlogs.splice(pos, 1)
 
                 blogService
@@ -203,40 +206,56 @@ const App = () => {
         }
     }
 
+    const BlogList = () => (
+        blogs.map(blog =>
+            blog ?
+                <div key={blog.id}>
+                    <Blog blog={blog} />
+                    <Button
+                        text='like'
+                        mutableItem={blog}
+                        mutatingFunction={likeBlog}
+                    />
+                    {blog.user.username === user.username ?
+                        <Button
+                            text='delete'
+                            mutableItem={blog}
+                            mutatingFunction={deleteBlog}
+                        />
+                        :
+                        null
+                    }
+                </div>
+                :
+                null
+        )
+    )
+
+    const LoggedInLayout = () => (
+        <>
+            <p> {user.name} logged in </p>
+            <Button text='logout' mutatingFunction={handleLogout} />
+            {blogForm()}
+            <h2>blogs</h2>
+            <Button
+                text={sorted ?
+                    'alphabetical'
+                    :
+                    'likes'
+                }
+                mutatingFunction={sortBlogs}
+            />
+        </>
+    )
+
     return (
         <div>
             <ErrorNotification message={errorMessage} />
             <ConfirmNotification message={confirmMessage} />
             {user ?
                 <>
-                    <p> {user.name} logged in </p>
-                    <Button text='logout' mutatingFunction={handleLogout} />
-                    {blogForm()}
-                    <h2>blogs</h2>
-                    <Button
-                        text={sorted ?
-                            'alphabetical'
-                            :
-                            'likes'
-                        }
-                        mutatingFunction={sortBlogs}
-                    />
-                    {
-                        blogs.map(blog =>
-                            blog ?
-                                <div key={blog.id}>
-                                    <Blog blog={blog} />
-                                    <Button text='like' mutableItem={blog} mutatingFunction={likeBlog} />
-                                    {blog.user.username === user.username ?
-                                        <Button text='delete' mutableItem={blog} mutatingFunction={deleteBlog} />
-                                        :
-                                        null
-                                    }
-                                </div>
-                                :
-                                null
-                        )
-                    }
+                    <LoggedInLayout />
+                    <BlogList />
                 </>
                 :
                 loginForm()
