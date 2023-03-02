@@ -107,6 +107,7 @@ const App = () => {
         blogService
             .create(blogObject)
             .then(returnedBlog => {
+                console.log(returnedBlog)
                 setBlogs(blogs.concat(returnedBlog))
             })
         setConfirmMessage('Posted blog!')
@@ -141,6 +142,29 @@ const App = () => {
         </form>
     )
 
+    const likePost = (event) => {
+        event.preventDefault()
+        const blogObject = {
+            title: newBlog.title,
+            author: user.name,
+            url: newBlog.url,
+        }
+        blogService
+            .put(blogObject)
+
+        setConfirmMessage('Posted blog!')
+        setTimeout(() => {
+            setConfirmMessage(null)
+        }, 5000)
+
+    }
+
+    const LikeButton = () => (
+        <button onClick={() => likePost()}>
+            like
+        </button>
+    )
+
     return (
         <div>
             <ErrorNotification message={errorMessage} />
@@ -153,7 +177,10 @@ const App = () => {
                     <h2>blogs</h2>
                     {blogs.map(blog =>
                         blog ?
-                            <Blog key={blog.id} blog={blog} />
+                            <>
+                                <Blog key={blog.id} blog={blog} />
+                                <LikeButton />
+                            </>
                             :
                             null
                     )}
