@@ -24,6 +24,18 @@ const create = async newObject => {
     return response.data
 }
 
+const remove = async blog => {
+    const config = {
+        headers: { Authorization: token },
+    }
+
+    const response = await axios
+        .delete(`${baseUrl}${blog.id}`, config)
+        .catch((e) => console.log(e))
+
+    return response.data
+}
+
 const put = async newObject => {
     const config = {
         headers: { Authorization: token },
@@ -33,11 +45,8 @@ const put = async newObject => {
         .put(`${baseUrl}${newObject.id}`, newObject, config)
         .catch((e) => console.log(e))
 
-    console.log('response', response)
-    console.log('url', baseUrl)
-    console.log('id', newObject)
     return response.data
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, setToken, create, put }
+export default { getAll, setToken, create, put, remove }

@@ -142,7 +142,7 @@ const App = () => {
         </form>
     )
 
-    const likePost = ({ blog }) => {
+    const likeBlog = ({ blog }) => {
         const blogObject = {
             title: blog.title,
             author: blog.name,
@@ -161,8 +161,25 @@ const App = () => {
     }
 
     const LikeButton = ({ blog }) => (
-        <button onClick={() => likePost({ blog })}>
+        <button onClick={() => likeBlog({ blog })}>
             like
+        </button >
+    )
+
+    const deleteBlog = ({ blog }) => {
+
+        blogService
+            .remove(blog)
+
+        setConfirmMessage('Deleted blog!')
+        setTimeout(() => {
+            setConfirmMessage(null)
+        }, 5000)
+    }
+
+    const DeleteButton = ({ blog }) => (
+        <button onClick={() => deleteBlog({ blog })}>
+            delete
         </button >
     )
 
@@ -181,6 +198,7 @@ const App = () => {
                             <>
                                 <Blog key={blog.id} blog={blog} />
                                 <LikeButton blog={blog} />
+                                <DeleteButton blog={blog} />
                             </>
                             :
                             null
