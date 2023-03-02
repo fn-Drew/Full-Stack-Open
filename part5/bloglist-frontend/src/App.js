@@ -8,6 +8,7 @@ import ConfirmNotification from './components/ConfirmNotification'
 const App = () => {
     const [blogs, setBlogs] = useState([])
     const [newBlog, setNewBlog] = useState({ title: '', url: '' })
+    const [sorted, setSorted] = useState(true)
     const [errorMessage, setErrorMessage] = useState(null)
     const [confirmMessage, setConfirmMessage] = useState(null)
 
@@ -190,6 +191,42 @@ const App = () => {
         </button >
     )
 
+    const sortBlogs = () => {
+        setSorted(!sorted)
+        if (sorted) {
+            const sortedBlogs = [...blogs]
+            sortedBlogs.sort((a, b) => b.likes - a.likes)
+            setBlogs(sortedBlogs)
+        } else {
+            // eventually chronological sort?
+            //  for now alphabetical
+            const unsortedBlogs = [...blogs]
+            unsortedBlogs.sort((a, b) => {
+                const titleA = a.title.toUpperCase()
+                const titleB = b.title.toUpperCase()
+                if (titleA < titleB) {
+                    return -1;
+                }
+                if (titleA > titleB) {
+                    return 1;
+                }
+                return 0;
+            });
+            setBlogs(unsortedBlogs)
+        }
+    }
+
+
+    const SortButton = () => (
+        <button onClick={() => sortBlogs()}>
+            {sorted ?
+                'alphabetical'
+                :
+                'likes'
+            }
+        </button >
+    )
+
     return (
         <div>
             <ErrorNotification message={errorMessage} />
@@ -200,16 +237,19 @@ const App = () => {
                     <LogoutButton />
                     {blogForm()}
                     <h2>blogs</h2>
-                    {blogs.map(blog =>
-                        blog ?
-                            <>
-                                <Blog key={blog.id} blog={blog} />
-                                <LikeButton blog={blog} />
-                                <DeleteButton blog={blog} />
-                            </>
-                            :
-                            null
-                    )}
+                    <SortButton />
+                    {
+                        blogs.map(blog =>
+                            blog ?
+                                <div key={blog.id}>
+                                    <Blog blog={blog} />
+                                    <LikeButton blog={blog} />
+                                    <DeleteButton blog={blog} />
+                                </div>
+                                :
+                                null
+                        )
+                    }
                 </>
                 :
                 loginForm()
