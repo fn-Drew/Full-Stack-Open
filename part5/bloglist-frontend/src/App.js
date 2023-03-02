@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import SortButton from './components/SortButton'
+import DeleteButton from './components/DeleteButton'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import ErrorNotification from './components/ErrorNotification'
@@ -185,12 +187,6 @@ const App = () => {
         }
     }
 
-    const DeleteButton = ({ blog }) => (
-        <button onClick={() => deleteBlog({ blog })}>
-            delete
-        </button >
-    )
-
     const sortBlogs = () => {
         setSorted(!sorted)
         if (sorted) {
@@ -217,16 +213,6 @@ const App = () => {
     }
 
 
-    const SortButton = () => (
-        <button onClick={() => sortBlogs()}>
-            {sorted ?
-                'alphabetical'
-                :
-                'likes'
-            }
-        </button >
-    )
-
     return (
         <div>
             <ErrorNotification message={errorMessage} />
@@ -237,14 +223,15 @@ const App = () => {
                     <LogoutButton />
                     {blogForm()}
                     <h2>blogs</h2>
-                    <SortButton />
+                    <SortButton sortBlogs={sortBlogs} sorted={sorted} />
                     {
                         blogs.map(blog =>
                             blog ?
                                 <div key={blog.id}>
                                     <Blog blog={blog} />
+                                    {/* button could be refactored into single button component */}
                                     <LikeButton blog={blog} />
-                                    <DeleteButton blog={blog} />
+                                    <DeleteButton blog={blog} deleteBlog={deleteBlog} />
                                 </div>
                                 :
                                 null
