@@ -7,7 +7,7 @@ import ConfirmNotification from './components/ConfirmNotification'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
-    const [newBlog, setNewBlog] = useState('')
+    const [newBlog, setNewBlog] = useState({ title: '', url: '' })
     const [errorMessage, setErrorMessage] = useState(null)
     const [confirmMessage, setConfirmMessage] = useState(null)
 
