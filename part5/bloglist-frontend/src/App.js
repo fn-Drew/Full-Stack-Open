@@ -100,8 +100,9 @@ const App = () => {
     const addBlog = (event) => {
         event.preventDefault()
         const blogObject = {
-            title: newBlog,
+            title: newBlog.title,
             author: user.name,
+            url: newBlog.url,
         }
         blogService
             .create(blogObject)
@@ -114,16 +115,27 @@ const App = () => {
         }, 5000)
     }
 
-    //fine
-    const handleBlogChange = (event) => {
-        setNewBlog(event.target.value)
-    }
-
     const blogForm = () => (
         <form onSubmit={addBlog}>
+            title
             <input
-                value={newBlog}
-                onChange={handleBlogChange}
+                value={newBlog.title}
+                onChange={(event) => {
+                    setNewBlog({
+                        ...newBlog,
+                        title: event.target.value
+                    })
+                }}
+            />
+            url
+            <input
+                value={newBlog.url}
+                onChange={(event) => {
+                    setNewBlog({
+                        ...newBlog,
+                        url: event.target.value
+                    })
+                }}
             />
             <button type="submit">save</button>
         </form>
