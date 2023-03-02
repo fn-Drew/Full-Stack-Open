@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types'
+
+
 const Button = ({ mutableItem, mutatingFunction, text }) => {
     if (!mutableItem) {
         return (
@@ -12,6 +15,10 @@ const Button = ({ mutableItem, mutatingFunction, text }) => {
             {text}
         </button >
     )
+}
+
+Button.propTypes = {
+    text: PropTypes.string.isRequired
 }
 
 

@@ -227,7 +227,11 @@ const App = () => {
                                 <div key={blog.id}>
                                     <Blog blog={blog} />
                                     <Button text='like' mutableItem={blog} mutatingFunction={likeBlog} />
-                                    <Button text='delete' mutableItem={blog} mutatingFunction={deleteBlog} />
+                                    {blog.user.username === user.username ?
+                                        <Button text='delete' mutableItem={blog} mutatingFunction={deleteBlog} />
+                                        :
+                                        null
+                                    }
                                 </div>
                                 :
                                 null
