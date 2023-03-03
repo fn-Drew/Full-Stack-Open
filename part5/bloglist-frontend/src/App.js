@@ -35,7 +35,13 @@ const App = () => {
             <ConfirmNotification message={confirmMessage} />
             {user ?
                 <>
-                    <LoggedInLayout user={user} setUser={setUser} blogs={blogs} setBlogs={setBlogs} setConfirmMessage={setConfirmMessage} />
+                    <LoggedInLayout
+                        user={user}
+                        setUser={setUser}
+                        blogs={blogs}
+                        setBlogs={setBlogs}
+                        setConfirmMessage={setConfirmMessage}
+                    />
                     <BlogList
                         setConfirmMessage={setConfirmMessage}
                         blogs={blogs}

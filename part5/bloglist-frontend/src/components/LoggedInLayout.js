@@ -2,7 +2,13 @@ import { useState } from "react"
 import BlogInput from "./BlogInput"
 import Button from "./Button"
 
-const LoggedInLayout = ({ user, blogs, setBlogs, setUser, setConfirmMessage }) => {
+const LoggedInLayout = ({
+    user,
+    blogs,
+    setBlogs,
+    setUser,
+    setConfirmMessage
+}) => {
     const [sorted, setSorted] = useState(true)
 
     const handleLogout = () => {
