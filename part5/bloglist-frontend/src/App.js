@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Button from './components/Button'
+import BlogInput from './components/BlogInput'
 import blogService from './services/blogs'
 import ErrorNotification from './components/ErrorNotification'
 import ConfirmNotification from './components/ConfirmNotification'
@@ -8,7 +9,6 @@ import UserLogin from './components/LoginForm'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
-    const [newBlog, setNewBlog] = useState({ title: '', url: '' })
     const [sorted, setSorted] = useState(true)
     const [errorMessage, setErrorMessage] = useState(null)
     const [confirmMessage, setConfirmMessage] = useState(null)
@@ -42,51 +42,6 @@ const App = () => {
         }, 5000)
 
     }
-
-    const addBlog = (event) => {
-        event.preventDefault()
-        const blogObject = {
-            title: newBlog.title,
-            author: user.name,
-            url: newBlog.url,
-        }
-        blogService
-            .create(blogObject)
-            .then(returnedBlog => {
-                console.log(returnedBlog)
-                setBlogs(blogs.concat(returnedBlog))
-            })
-        setConfirmMessage('Posted blog!')
-        setTimeout(() => {
-            setConfirmMessage(null)
-        }, 5000)
-    }
-
-    const BlogForm = () => (
-        <form onSubmit={addBlog}>
-            title
-            <input
-                value={newBlog.title}
-                onChange={(event) => {
-                    setNewBlog({
-                        ...newBlog,
-                        title: event.target.value
-                    })
-                }}
-            />
-            url
-            <input
-                value={newBlog.url}
-                onChange={(event) => {
-                    setNewBlog({
-                        ...newBlog,
-                        url: event.target.value
-                    })
-                }}
-            />
-            <button type="submit">save</button>
-        </form>
-    )
 
     const likeBlog = ({ mutableItem }) => {
         const blogObject = {
@@ -185,7 +140,12 @@ const App = () => {
         <>
             <p> {user.name} logged in </p>
             <Button text='logout' mutatingFunction={handleLogout} />
-            <BlogForm />
+            <BlogInput
+                user={user}
+                setBlogs={setBlogs}
+                blogs={blogs}
+                setConfirmMessage={setConfirmMessage}
+            />
             <h2>blogs</h2>
             <Button
                 text={sorted ?
@@ -209,7 +169,10 @@ const App = () => {
                 </>
                 :
                 <>
-                    <UserLogin setUser={setUser} setErrorMessage={setErrorMessage} />
+                    <UserLogin
+                        setUser={setUser}
+                        setErrorMessage={setErrorMessage}
+                    />
                 </>
             }
         </div>
