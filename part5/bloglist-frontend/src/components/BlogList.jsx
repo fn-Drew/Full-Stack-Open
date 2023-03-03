@@ -4,19 +4,20 @@ import Button from './Button';
 import blogService from '../services/blogs';
 
 const BlogList = ({
-    setBlogs, blogs, user, setConfirmMessage,
+    setBlogs,
+    blogs,
+    user,
+    setConfirmMessage,
 }) => {
     const deleteBlog = ({ mutableItem }) => {
         if (window.confirm('Do you really want to delete the post?')) {
             const mutableBlogs = blogs;
-
             if (mutableItem) {
                 const pos = mutableBlogs.findIndex((mutableBlog) => (
                     mutableBlog.id === mutableItem.id
                 ));
 
                 mutableBlogs.splice(pos, 1);
-
                 blogService
                     .remove(mutableItem)
                     .then(() => setBlogs(mutableBlogs));

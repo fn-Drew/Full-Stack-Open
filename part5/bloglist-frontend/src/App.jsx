@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import BlogList from './components/BlogList';
-import blogService from './services/blogs';
-import ErrorNotification from './components/ErrorNotification';
-import ConfirmNotification from './components/ConfirmNotification';
-import UserLogin from './components/LoginForm';
-import LoggedInLayout from './components/LoggedInLayout';
+import React, { useState, useEffect } from 'react'
+import BlogList from './components/BlogList'
+import blogService from './services/blogs'
+import ErrorNotification from './components/ErrorNotification'
+import ConfirmNotification from './components/ConfirmNotification'
+import UserLogin from './components/LoginForm'
+import LoggedInLayout from './components/LoggedInLayout'
 
 function App() {
-    const [blogs, setBlogs] = useState([]);
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [confirmMessage, setConfirmMessage] = useState(null);
+    const [blogs, setBlogs] = useState([])
+    const [errorMessage, setErrorMessage] = useState(null)
+    const [confirmMessage, setConfirmMessage] = useState(null)
 
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null)
 
     useEffect(() => {
-        blogService.getAll().then((allBlogs) => setBlogs(allBlogs));
-    }, []);
+        blogService.getAll().then((allBlogs) => setBlogs(allBlogs))
+    }, [])
 
     // on page load check if user has logged in before
     useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser');
+        const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
         if (loggedUserJSON) {
-            const currentUser = JSON.parse(loggedUserJSON);
-            setUser(currentUser);
-            blogService.setToken(currentUser.token);
+            const currentUser = JSON.parse(loggedUserJSON)
+            setUser(currentUser)
+            blogService.setToken(currentUser.token)
         }
-    }, []);
+    }, [])
 
     return (
         <div>
@@ -56,7 +56,7 @@ function App() {
                     />
                 )}
         </div>
-    );
+    )
 }
 
-export default App;
+export default App
