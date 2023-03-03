@@ -1,30 +1,27 @@
-import { useState } from 'react'
-import blogService from '../services/blogs'
-import loginService from '../services/login'
+import React, { useState } from 'react';
+import blogService from '../services/blogs';
+import loginService from '../services/login';
 
-const UserLogin = ({ setUser, setErrorMessage }) => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+function UserLogin({ setUser, setErrorMessage }) {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleLogin = async (event) => {
-
-        event.preventDefault()
+        event.preventDefault();
         try {
-            const user = await loginService.login({ username, password, })
-            window.localStorage.setItem(
-                'loggedBlogAppUser', JSON.stringify(user)
-            )
-            blogService.setToken(user.token)
-            setUser(user)
-            setUsername('')
-            setPassword('')
+            const user = await loginService.login({ username, password });
+            window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
+            blogService.setToken(user.token);
+            setUser(user);
+            setUsername('');
+            setPassword('');
         } catch (err) {
-            setErrorMessage('Wrong credentials')
+            setErrorMessage('Wrong credentials');
             setTimeout(() => {
-                setErrorMessage(null)
-            }, 5000)
+                setErrorMessage(null);
+            }, 5000);
         }
-    }
+    };
 
     return (
         <form onSubmit={handleLogin}>
@@ -48,7 +45,7 @@ const UserLogin = ({ setUser, setErrorMessage }) => {
             </div>
             <button type="submit">login</button>
         </form>
-    )
+    );
 }
 
-export default UserLogin
+export default UserLogin;
