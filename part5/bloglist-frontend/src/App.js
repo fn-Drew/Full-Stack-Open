@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
 import Button from './components/Button'
 import BlogInput from './components/BlogInput'
+import BlogList from './components/BlogList'
 import blogService from './services/blogs'
 import ErrorNotification from './components/ErrorNotification'
 import ConfirmNotification from './components/ConfirmNotification'
@@ -42,50 +42,6 @@ const App = () => {
         }, 5000)
 
     }
-
-    const likeBlog = ({ mutableItem }) => {
-        const blogObject = {
-            title: mutableItem.title,
-            author: mutableItem.name,
-            url: mutableItem.url,
-            user: mutableItem.user,
-            likes: ++mutableItem.likes,
-            id: mutableItem.id,
-        }
-        blogService
-            .put(blogObject)
-
-        setConfirmMessage('Liked post!')
-        setTimeout(() => {
-            setConfirmMessage(null)
-        }, 5000)
-    }
-
-    const deleteBlog = ({ mutableItem }) => {
-        if (window.confirm("Do you really want to delete the post?")) {
-            const mutableBlogs = blogs
-
-            if (mutableItem) {
-                const pos = mutableBlogs.findIndex(mutableBlog => (
-                    mutableBlog.id === mutableItem.id
-                ))
-
-                mutableBlogs.splice(pos, 1)
-
-                blogService
-                    .remove(mutableItem)
-                    .then(() => setBlogs(mutableBlogs))
-
-                setConfirmMessage('Deleted blog!')
-                setTimeout(() => {
-                    setConfirmMessage(null)
-                }, 5000)
-            } else {
-                console.error('blog is ', mutableItem)
-            }
-        }
-    }
-
     const sortBlogs = () => {
         setSorted(!sorted)
         if (sorted) {
@@ -110,31 +66,6 @@ const App = () => {
             setBlogs(unsortedBlogs)
         }
     }
-
-    const BlogList = () => (
-        blogs.map(blog =>
-            blog ?
-                <div key={blog.id}>
-                    <Blog blog={blog} />
-                    <Button
-                        text='like'
-                        mutableItem={blog}
-                        mutatingFunction={likeBlog}
-                    />
-                    {blog.user.username === user.username ?
-                        <Button
-                            text='delete'
-                            mutableItem={blog}
-                            mutatingFunction={deleteBlog}
-                        />
-                        :
-                        null
-                    }
-                </div>
-                :
-                null
-        )
-    )
 
     const LoggedInLayout = () => (
         <>
@@ -165,7 +96,7 @@ const App = () => {
             {user ?
                 <>
                     <LoggedInLayout />
-                    <BlogList />
+                    <BlogList setConfirmMessage={setConfirmMessage} blogs={blogs} setBlogs={setBlogs} user={user} />
                 </>
                 :
                 <>
