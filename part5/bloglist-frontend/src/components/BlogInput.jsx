@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import blogService from '../services/blogs';
+import React, { useState } from 'react'
+import blogService from '../services/blogs'
 
 function BlogForm({ addBlog, newBlog, setNewBlog }) {
     return (
@@ -11,7 +11,7 @@ function BlogForm({ addBlog, newBlog, setNewBlog }) {
                     setNewBlog({
                         ...newBlog,
                         title: event.target.value,
-                    });
+                    })
                 }}
             />
             url
@@ -21,40 +21,40 @@ function BlogForm({ addBlog, newBlog, setNewBlog }) {
                     setNewBlog({
                         ...newBlog,
                         url: event.target.value,
-                    });
+                    })
                 }}
             />
             <button type="submit">save</button>
         </form>
-    );
+    )
 }
 
 function BlogInput({
     user, setBlogs, blogs, setConfirmMessage,
 }) {
-    const [newBlog, setNewBlog] = useState({ title: '', url: '' });
+    const [newBlog, setNewBlog] = useState({ title: '', url: '' })
 
     const addBlog = (event) => {
-        event.preventDefault();
+        event.preventDefault()
         const blogObject = {
             title: newBlog.title,
             author: user.name,
             url: newBlog.url,
-        };
+        }
         blogService
             .create(blogObject)
             .then((returnedBlog) => {
-                console.log(returnedBlog);
-                setBlogs(blogs.concat(returnedBlog));
-            });
-        setConfirmMessage('Posted blog!');
+                console.log(returnedBlog)
+                setBlogs(blogs.concat(returnedBlog))
+            })
+        setConfirmMessage('Posted blog!')
         setTimeout(() => {
-            setConfirmMessage(null);
-        }, 5000);
-    };
+            setConfirmMessage(null)
+        }, 5000)
+    }
 
     return (
         <BlogForm addBlog={addBlog} newBlog={newBlog} setNewBlog={setNewBlog} />
-    );
+    )
 }
-export default BlogInput;
+export default BlogInput

@@ -1,7 +1,7 @@
-import React from 'react';
-import Blog from './Blog';
-import Button from './Button';
-import blogService from '../services/blogs';
+import React from 'react'
+import Blog from './Blog'
+import Button from './Button'
+import blogService from '../services/blogs'
 
 const BlogList = ({
     setBlogs,
@@ -11,30 +11,30 @@ const BlogList = ({
 }) => {
     const deleteBlog = ({ mutableItem }) => {
         if (window.confirm('Do you really want to delete the post?')) {
-            const mutableBlogs = blogs;
+            const mutableBlogs = blogs
             if (mutableItem) {
                 const pos = mutableBlogs.findIndex((mutableBlog) => (
                     mutableBlog.id === mutableItem.id
-                ));
+                ))
 
-                mutableBlogs.splice(pos, 1);
+                mutableBlogs.splice(pos, 1)
                 blogService
                     .remove(mutableItem)
-                    .then(() => setBlogs(mutableBlogs));
+                    .then(() => setBlogs(mutableBlogs))
 
-                setConfirmMessage('Deleted blog!');
+                setConfirmMessage('Deleted blog!')
                 setTimeout(() => {
-                    setConfirmMessage(null);
-                }, 5000);
+                    setConfirmMessage(null)
+                }, 5000)
             } else {
-                console.error('blog is ', mutableItem);
+                console.error('blog is ', mutableItem)
             }
         }
-    };
+    }
 
     const likeBlog = ({ mutableItem }) => {
-        const postLikeInc = mutableItem;
-        postLikeInc.likes += 1;
+        const postLikeInc = mutableItem
+        postLikeInc.likes += 1
 
         const blogObject = {
             title: mutableItem.title,
@@ -43,18 +43,18 @@ const BlogList = ({
             user: mutableItem.user,
             likes: postLikeInc.likes,
             id: mutableItem.id,
-        };
+        }
         blogService
-            .put(blogObject);
+            .put(blogObject)
 
         // discovered this was causing the delay on update... made it instant i guess lol
         // causes rerender is why. can make this less jank but it's kind of funny
         // change at some point maybe
-        setConfirmMessage('');
+        setConfirmMessage('')
         setTimeout(() => {
-            setConfirmMessage(null);
-        }, 0);
-    };
+            setConfirmMessage(null)
+        }, 0)
+    }
 
     return (
         blogs.map((blog) => (blog
@@ -78,7 +78,7 @@ const BlogList = ({
                 </div>
             )
             : null))
-    );
-};
+    )
+}
 
-export default BlogList;
+export default BlogList

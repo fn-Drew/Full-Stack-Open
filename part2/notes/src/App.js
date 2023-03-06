@@ -5,7 +5,7 @@ import Notification from './components/Notification'
 import Footer from './components/Footer'
 import LoginForm from './components/LoginForm'
 import NoteForm from './components/NoteForm'
-import Togglable from './components/Toggleable'
+import Togglable from './components/Togglable'
 import noteService from './services/notes'
 import loginService from './services/login'
 
@@ -76,7 +76,7 @@ const App = () => {
             .then(returnedNote => {
                 setNotes(notes.map(note => note.id !== id ? note : returnedNote))
             })
-            .catch(error => {
+            .catch(() => {
                 setErrorMessage(
                     `Note '${note.content}' was already removed from server`
                 )

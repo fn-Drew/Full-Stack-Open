@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import BlogInput from './BlogInput';
-import Button from './Button';
+import React, { useState } from 'react'
+import BlogInput from './BlogInput'
+import Button from './Button'
 
 function LoggedInLayout({
     user,
@@ -9,43 +9,43 @@ function LoggedInLayout({
     setUser,
     setConfirmMessage,
 }) {
-    const [sorted, setSorted] = useState(true);
+    const [sorted, setSorted] = useState(true)
 
     const handleLogout = () => {
         window.localStorage.removeItem(
             'loggedBlogAppUser',
-        );
-        setUser(null);
-        setConfirmMessage('You logged out');
+        )
+        setUser(null)
+        setConfirmMessage('You logged out')
         setTimeout(() => {
-            setConfirmMessage(null);
-        }, 5000);
-    };
+            setConfirmMessage(null)
+        }, 5000)
+    }
 
     const sortBlogs = () => {
-        setSorted(!sorted);
+        setSorted(!sorted)
         if (sorted) {
-            const sortedBlogs = [...blogs];
-            sortedBlogs.sort((a, b) => b.likes - a.likes);
-            setBlogs(sortedBlogs);
+            const sortedBlogs = [...blogs]
+            sortedBlogs.sort((a, b) => b.likes - a.likes)
+            setBlogs(sortedBlogs)
         } else {
             // eventually chronological sort?
             //  for now alphabetical
-            const unsortedBlogs = [...blogs];
+            const unsortedBlogs = [...blogs]
             unsortedBlogs.sort((a, b) => {
-                const titleA = a.title.toUpperCase();
-                const titleB = b.title.toUpperCase();
+                const titleA = a.title.toUpperCase()
+                const titleB = b.title.toUpperCase()
                 if (titleA < titleB) {
-                    return -1;
+                    return -1
                 }
                 if (titleA > titleB) {
-                    return 1;
+                    return 1
                 }
-                return 0;
-            });
-            setBlogs(unsortedBlogs);
+                return 0
+            })
+            setBlogs(unsortedBlogs)
         }
-    };
+    }
 
     return (
         <>
@@ -71,7 +71,7 @@ function LoggedInLayout({
                 mutatingFunction={sortBlogs}
             />
         </>
-    );
+    )
 }
 
-export default LoggedInLayout;
+export default LoggedInLayout

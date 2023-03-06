@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 function Button({ mutableItem, mutatingFunction, text }) {
     if (!mutableItem) {
@@ -7,18 +7,18 @@ function Button({ mutableItem, mutatingFunction, text }) {
             <button type="button" onClick={mutatingFunction}>
                 {text}
             </button>
-        );
+        )
     }
 
     return (
         <button type="button" onClick={() => mutatingFunction({ mutableItem })}>
             {text}
         </button>
-    );
+    )
 }
 
 Button.propTypes = {
     text: PropTypes.string.isRequired,
-};
+}
 
-export default Button;
+export default Button

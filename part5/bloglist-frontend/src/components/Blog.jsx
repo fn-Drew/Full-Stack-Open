@@ -1,5 +1,5 @@
-import React from 'react';
-import Togglable from './Togglable';
+import React from 'react'
+import Togglable from './Togglable'
 
 function Blog({ blog }) {
     return (
@@ -17,7 +17,7 @@ function Blog({ blog }) {
                 {blog.likes}
             </Togglable>
         </div>
-    );
+    )
 }
 
-export default Blog;
+export default Blog
