@@ -1,15 +1,11 @@
-import { useDispatch } from 'react-redux'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
-
-import { filterUpdate } from './reducers/filterReducer'
+import Filter from './components/Filter'
 
 const App = () => {
-    const dispatch = useDispatch()
-
     return (
         <div>
-            <input type="text" name="filter" onChange={(event) => dispatch(filterUpdate(event))} />
+            <Filter />
             <AnecdoteList />
             <AnecdoteForm />
         </div>
