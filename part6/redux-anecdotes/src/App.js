@@ -3,6 +3,8 @@ import { vote, addAnecdote } from './reducers/anecdoteReducer'
 
 const App = () => {
     const anecdotes = useSelector(state => state)
+    anecdotes.sort((a, b) => a.votes < b.votes)
+
     const dispatch = useDispatch()
 
     const createAnecdote = (event) => {
