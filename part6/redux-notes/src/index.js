@@ -4,18 +4,10 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
-import { configureStore } from '@reduxjs/toolkit';
 
 import noteService from './services/notes';
-import noteReducer, { setNotes } from './reducers/noteReducer';
-import filterReducer from './reducers/filterReducer';
-
-const store = configureStore({
-    reducer: {
-        notes: noteReducer,
-        filter: filterReducer
-    }
-})
+import { setNotes } from './reducers/noteReducer';
+import store from './store';
 
 noteService.getAll().then(notes => {
     store.dispatch(setNotes(notes))
