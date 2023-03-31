@@ -5,16 +5,17 @@ const AnecdoteList = () => {
     const dispatch = useDispatch()
 
     const anecdotes = useSelector(state => state.anecdotes)
-    anecdotes.sort((a, b) => a.votes < b.votes)
+    let sortedNotes = [...anecdotes]
+    sortedNotes.sort((a, b) => a.votes < b.votes)
 
     const filter = useSelector(state => state.filter)
-    const filteredAnecdotes = anecdotes.filter((a) => {
+
+    const filteredAnecdotes = sortedNotes.filter((a) => {
         if (a.content.includes(filter)) {
             return a
         } else {
             return null
         }
-
     })
 
     return (
@@ -28,7 +29,7 @@ const AnecdoteList = () => {
                         </div>
                         <div>
                             has {anecdote.votes}
-                            <button onClick={() => dispatch(vote(anecdote.id))}>vote</button>
+                            <button onClick={() => dispatch(vote(anecdote))}>vote</button>
                         </div>
                     </div>
                 )
