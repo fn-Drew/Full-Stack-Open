@@ -6,7 +6,8 @@ import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import { configureStore } from '@reduxjs/toolkit';
 
-import noteReducer from './reducers/noteReducer';
+import noteService from './services/notes';
+import noteReducer, { setNotes } from './reducers/noteReducer';
 import filterReducer from './reducers/filterReducer';
 
 const store = configureStore({
@@ -14,6 +15,10 @@ const store = configureStore({
         notes: noteReducer,
         filter: filterReducer
     }
+})
+
+noteService.getAll().then(notes => {
+    store.dispatch(setNotes(notes))
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
