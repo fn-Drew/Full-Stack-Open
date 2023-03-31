@@ -6,12 +6,14 @@ const AnecdoteList = () => {
     const dispatch = useDispatch()
 
     const anecdotes = useSelector(state => state.anecdotes)
-    let sortedNotes = [...anecdotes]
-    sortedNotes.sort((a, b) => a.votes < b.votes)
+    let sortedAnecdotes = [...anecdotes]
+    sortedAnecdotes.sort((a, b) => a.votes < b.votes)
 
     const filter = useSelector(state => state.filter)
 
-    const filteredAnecdotes = sortedNotes.filter((a) => {
+    console.log(sortedAnecdotes)
+
+    const filteredAnecdotes = sortedAnecdotes.filter((a) => {
         if (a.content.includes(filter)) {
             return a
         } else {
