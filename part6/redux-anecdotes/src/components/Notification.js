@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux"
 
 const Notification = () => {
+
     const style = {
         border: 'solid',
         padding: 10,
@@ -9,11 +10,13 @@ const Notification = () => {
 
     const notification = useSelector(state => state.notification)
 
-    return (
+    return notification
+        ?
         <div style={style}>
             {notification}
         </div>
-    )
+        :
+        null
 }
 
 export default Notification
