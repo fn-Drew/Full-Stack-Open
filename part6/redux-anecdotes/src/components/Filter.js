@@ -5,7 +5,11 @@ const Filter = () => {
     const dispatch = useDispatch()
 
     return (
-        <input type="text" name="filter" onChange={(event) => dispatch(filterUpdate(event))} />
+        <input
+            type="text"
+            name="filter"
+            onChange={(event) => dispatch(filterUpdate(event.target.value))}
+        />
     )
 }
 
