@@ -9,6 +9,12 @@ const App = () => {
         console.log('voted for', anecdote)
     }
 
+    const addNote = async (event) => {
+        event.preventDefault()
+        const content = event.target.anecdote.value
+        event.target.anecdote.value = ''
+    }
+
     const result = useQuery('anecdotes', getAnecdotes)
 
     if (result.isLoading) {
