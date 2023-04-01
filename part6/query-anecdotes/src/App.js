@@ -12,6 +12,10 @@ const App = () => {
     const result = useQuery('anecdotes', getAnecdotes)
 
     if (result.isLoading) {
+        return <div>error</div>
+    }
+
+    if (result.isError) {
         return <div>loading...</div>
     }
 
