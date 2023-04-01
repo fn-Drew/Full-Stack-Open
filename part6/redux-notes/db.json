@@ -22,12 +22,12 @@
     },
     {
       "content": "big test",
-      "important": false,
+      "important": true,
       "id": 5
     },
     {
       "content": "test 2",
-      "important": false,
+      "important": true,
       "id": 6
     },
     {
@@ -39,6 +39,21 @@
       "content": "new note ega goga",
       "important": false,
       "id": 8
+    },
+    {
+      "content": "test 1234",
+      "important": true,
+      "id": 9
+    },
+    {
+      "content": "test 1234",
+      "important": true,
+      "id": 10
+    },
+    {
+      "content": "new test",
+      "important": true,
+      "id": 11
     }
   ]
 }
