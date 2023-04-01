@@ -5,14 +5,25 @@ const App = () => {
     const queryClient = useQueryClient()
 
     const newNoteMutation = useMutation(createNote, {
-        onSuccess: () => {
-            queryClient.invalidateQueries('notes')
+        onSuccess: (newNote) => {
+            const notes = queryClient.getQueryData('notes')
+            queryClient.setQueryData('notes', notes.concat(newNote))
+            // or this method makes a new get request to the server
+            // queryClient.invalidateQueries('notes')
         },
     })
 
     const updateNoteMutation = useMutation(updateNote, {
-        onSuccess: () => {
-            queryClient.invalidateQueries('notes')
+        onSuccess: (updatedNote) => {
+            const notes = queryClient.getQueryData('notes')
+            const noteToUpdate = notes.find(note => note.id === updatedNote.id)
+            const updatedNotes = notes.map(note => note.id === noteToUpdate.id ? {
+                ...noteToUpdate,
+                important: !noteToUpdate.important
+            } : note)
+            queryClient.setQueryData('notes', updatedNotes)
+            // or the method that makes an extra get request
+            // queryClient.invalidateQueries('notes')
         },
     })
 
@@ -27,7 +38,10 @@ const App = () => {
         updateNoteMutation.mutate({ ...note, important: !note.important })
     }
 
-    const result = useQuery('notes', getNotes)
+    const result = useQuery('notes', getNotes, {
+        // disable get request on focus of input field
+        refetchOnWindowFocus: false,
+    })
 
     if (result.isLoading) {
         return <div>loading...</div>

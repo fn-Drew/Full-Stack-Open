@@ -17,7 +17,7 @@
     },
     {
       "content": "tst",
-      "important": false,
+      "important": true,
       "id": 4
     },
     {
@@ -37,23 +37,28 @@
     },
     {
       "content": "new note ega goga",
-      "important": false,
+      "important": true,
       "id": 8
     },
     {
       "content": "test 1234",
-      "important": true,
+      "important": false,
       "id": 9
     },
     {
       "content": "test 1234",
-      "important": true,
+      "important": false,
       "id": 10
     },
     {
       "content": "new test",
       "important": true,
       "id": 11
+    },
+    {
+      "content": "epic test",
+      "important": true,
+      "id": 12
     }
   ]
 }
