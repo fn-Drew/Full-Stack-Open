@@ -22,10 +22,7 @@ const AnecdoteList = () => {
     const likeAnecdote = (anecdote) => {
         dispatch(voteAnecdote(anecdote))
         const notification = `You liked '${anecdote.content}'!`
-        dispatch(setNotification(notification))
-        setTimeout(() => {
-            dispatch(clearNotification())
-        }, 5000)
+        dispatch(setNotification(notification, 5))
     }
 
     return (
