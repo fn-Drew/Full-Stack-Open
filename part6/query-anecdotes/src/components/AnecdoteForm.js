@@ -1,13 +1,24 @@
 import { useMutation, useQueryClient } from "react-query"
+import { useNotificationDispatch } from "../NotificationContext"
 import { createAnecdote } from "../requests"
 
 const AnecdoteForm = () => {
+    const dispatch = useNotificationDispatch()
     const queryClient = useQueryClient()
 
     const newNoteMutation = useMutation(createAnecdote, {
         onSuccess: () => {
             queryClient.invalidateQueries('anecdotes')
         },
+        onError: (err) => {
+            dispatch({
+                type: "SET",
+                payload: err.response.data.error,
+            })
+            setTimeout(() => {
+                dispatch({ type: "CLEAR" })
+            }, 5000)
+        }
     })
 
     const onCreate = (event) => {

@@ -31,11 +31,11 @@ const App = () => {
     const result = useQuery('anecdotes', getAnecdotes)
 
     if (result.isLoading) {
-        return <div>error</div>
+        return <div>loading...</div>
     }
 
     if (result.isError) {
-        return <div>loading...</div>
+        return <div>ERROR</div>
     }
 
     const anecdotes = result.data
