@@ -1,5 +1,4 @@
-import { useContext, useReducer } from 'react'
-import CounterContext, { useCounterValue, useCounterDispatch } from './CounterContext'
+import { useCounterValue, useCounterDispatch } from './CounterContext'
 
 const Display = () => {
     const counter = useCounterValue()
