@@ -1,24 +1,33 @@
 // calculates average time of daily exercise hours and compares it to the
 // target amount of daily hours and return an object
-//
+
+const parseUserInput = (args: string[]): number[] => {
+    if (args.length < 4) throw new Error('Not enough arguments');
+
+    // check if all args are numbers
+    const parsedArgs = args.slice(2).map((arg) => {
+        if (isNaN(Number(arg))) {
+            throw new Error('Provided values were not numbers!');
+        } else {
+            return Number(arg)
+        }
+    })
+
+    return parsedArgs
+}
+
 const getDescription = (rating: number): string => {
-
     let ratingDescription = ''
-
     if (rating === 3) {
         ratingDescription = 'Very good!'
     }
-
     if (rating === 2) {
         ratingDescription = 'OK.'
     }
-
     if (rating === 1) {
         ratingDescription = 'Very bad!'
     }
-
     return ratingDescription;
-
 }
 
 interface Result {
@@ -32,7 +41,7 @@ interface Result {
 }
 
 const calculationExercises = (input: number[]): Result => {
-    const target = 2
+    const target = input.shift()
     const totalDays = input.length
 
     const totalHours = input.reduce(
@@ -73,4 +82,13 @@ const calculationExercises = (input: number[]): Result => {
     }
 }
 
-console.log(calculationExercises([3, 0, 2, 4.5, 0, 3, 1]))
+try {
+    const args = parseUserInput(process.argv);
+    console.log(calculationExercises(args))
+} catch (error: unknown) {
+    let errorMessage = 'There was an error!'
+    if (error instanceof Error) {
+        errorMessage += ' Error: ' + error.message;
+    }
+    console.log(errorMessage)
+}
