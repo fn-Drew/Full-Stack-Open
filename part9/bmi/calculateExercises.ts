@@ -1,18 +1,3 @@
-const parseUserInput = (args: string[]): number[] => {
-    if (args.length < 4) throw new Error('Not enough arguments');
-
-    // check if all args are numbers
-    const parsedArgs = args.slice(2).map((arg) => {
-        if (isNaN(Number(arg))) {
-            throw new Error('Provided values were not numbers!');
-        } else {
-            return Number(arg);
-        }
-    });
-
-    return parsedArgs;
-};
-
 const getDescription = (rating: number): string => {
     let ratingDescription = '';
     if (rating === 3) {
@@ -37,11 +22,17 @@ interface Result {
     ratingDescription: string,
 }
 
-export const calculationExercises = (input: number[]): Result => {
-    const target = input.shift();
-    if (!target) {
-        throw new Error('target undefined');
+export const calculationExercises = (input: number[], target: number): Result => {
+    if (isNaN(Number(target))) {
+        throw new Error('Malformatted request in target');
     }
+    target = Number(target);
+
+    input.map((day, index) => {
+        if (isNaN(Number(day))) {
+            throw new Error(`Malformatted request in day ${index + 1}`);
+        }
+    });
 
     const totalDays = input.length;
 
@@ -82,14 +73,3 @@ export const calculationExercises = (input: number[]): Result => {
         ratingDescription,
     };
 };
-
-try {
-    const args = parseUserInput(process.argv);
-    console.log(calculationExercises(args));
-} catch (error: unknown) {
-    let errorMessage = 'There was an error!';
-    if (error instanceof Error) {
-        errorMessage += ' Error: ' + error.message;
-    }
-    console.log(errorMessage);
-}

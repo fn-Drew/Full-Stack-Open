@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import express from 'express';
+import { calculationExercises } from './calculateExercises';
 const app = express();
+app.use(express.json());
 
 app.get('/ping', (_req, res) => {
     res.send('pong');
@@ -41,6 +44,23 @@ app.get('/bmi', (req, res) => {
         bodyType,
         bmi,
     });
+});
+
+interface Input {
+    daily_exercises: number[],
+    target: number
+}
+
+app.post('/exercises', (req, res) => {
+    const input = req.body as Input;
+    const { daily_exercises, target } = input;
+    const results = calculationExercises(daily_exercises, target);
+
+    try {
+        res.send(results);
+    } catch (err) {
+        res.send(err);
+    }
 });
 
 const PORT = 3003;
