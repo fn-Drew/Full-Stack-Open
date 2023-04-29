@@ -1,6 +1,3 @@
-// calculates average time of daily exercise hours and compares it to the
-// target amount of daily hours and return an object
-
 const parseUserInput = (args: string[]): number[] => {
     if (args.length < 4) throw new Error('Not enough arguments');
 
