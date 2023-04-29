@@ -6,26 +6,26 @@ const parseUserInput = (args: string[]): number[] => {
         if (isNaN(Number(arg))) {
             throw new Error('Provided values were not numbers!');
         } else {
-            return Number(arg)
+            return Number(arg);
         }
-    })
+    });
 
-    return parsedArgs
-}
+    return parsedArgs;
+};
 
 const getDescription = (rating: number): string => {
-    let ratingDescription = ''
+    let ratingDescription = '';
     if (rating === 3) {
-        ratingDescription = 'Very good!'
+        ratingDescription = 'Very good!';
     }
     if (rating === 2) {
-        ratingDescription = 'OK.'
+        ratingDescription = 'OK.';
     }
     if (rating === 1) {
-        ratingDescription = 'Very bad!'
+        ratingDescription = 'Very bad!';
     }
     return ratingDescription;
-}
+};
 
 interface Result {
     totalDays: number,
@@ -38,35 +38,39 @@ interface Result {
 }
 
 const calculationExercises = (input: number[]): Result => {
-    const target = input.shift()
-    const totalDays = input.length
+    const target = input.shift();
+    if (!target) {
+        throw new Error('target undefined');
+    }
+
+    const totalDays = input.length;
 
     const totalHours = input.reduce(
         (totalHours, day) => totalHours + day
-    )
+    );
 
-    const averageHours = totalHours / totalDays
+    const averageHours = totalHours / totalDays;
 
-    const success = (averageHours >= target) ? true : false
+    const success = (averageHours >= target) ? true : false;
 
     let daysTrained = 0;
     input.map((day) => {
         if (day > 0) {
-            daysTrained++
+            daysTrained++;
         }
-    })
+    });
 
-    let rating = Math.round(averageHours)
+    let rating = Math.round(averageHours);
 
     if (rating > 3) {
-        rating = 3
+        rating = 3;
     }
 
     if (rating < 0) {
-        rating = 1
+        rating = 1;
     }
 
-    const ratingDescription = getDescription(rating)
+    const ratingDescription = getDescription(rating);
 
     return {
         totalDays,
@@ -76,16 +80,16 @@ const calculationExercises = (input: number[]): Result => {
         success,
         rating,
         ratingDescription,
-    }
-}
+    };
+};
 
 try {
     const args = parseUserInput(process.argv);
-    console.log(calculationExercises(args))
+    console.log(calculationExercises(args));
 } catch (error: unknown) {
-    let errorMessage = 'There was an error!'
+    let errorMessage = 'There was an error!';
     if (error instanceof Error) {
         errorMessage += ' Error: ' + error.message;
     }
-    console.log(errorMessage)
+    console.log(errorMessage);
 }
