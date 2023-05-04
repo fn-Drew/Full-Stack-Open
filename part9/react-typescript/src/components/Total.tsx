@@ -1,9 +1,6 @@
-type Part = {
-    name: string,
-    exerciseCount: number,
-}
+import { CoursePart } from '../types';
 
-function Total({ courseParts }: { courseParts: Part[] }): JSX.Element {
+function Total({ courseParts }: { courseParts: CoursePart[] }): JSX.Element {
     const totalParts = courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)
     return (
         <p>

@@ -1,16 +1,12 @@
-type Part = {
-    name: string,
-    exerciseCount: number,
-}
+import { CoursePart } from '../types';
+import Part from './Part';
 
-function Content({ courseParts }: { courseParts: Part[] }): JSX.Element {
+function Content({ courseParts }: { courseParts: CoursePart[] }): JSX.Element {
     return (
         <>
             {
                 courseParts.map((part, index) => (
-                    <p key={index}>
-                        {part.name} {part.exerciseCount}
-                    </p>
+                    <Part key={index} part={part} />
                 ))
             }
         </>
