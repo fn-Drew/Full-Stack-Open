@@ -38,24 +38,33 @@ export default function EntryCreationForm() {
                 <div>
                     date
                     <input
+                        type='date'
                         value={newEntry.date}
                         onChange={(event) => setNewEntry({ ...newEntry, date: event.target.value })}
                     />
                 </div>
-                <div>
-                    visibility
-                    <input
-                        value={newEntry.visibility}
-                        onChange={(event) => setNewEntry({ ...newEntry, visibility: event.target.value })}
-                    />
-                </div>
-                <div>
-                    weather
-                    <input
-                        value={newEntry.weather}
-                        onChange={(event) => setNewEntry({ ...newEntry, weather: event.target.value })}
-                    />
-                </div>
+                <fieldset>
+                    <input type="radio" name="visibility" value="great" onChange={(event) => setNewEntry({ ...newEntry, visibility: event.target.value })} />
+                    <label>great</label>
+                    <input type="radio" name="visibility" value="good" onChange={(event) => setNewEntry({ ...newEntry, visibility: event.target.value })} />
+                    <label>good</label>
+                    <input type="radio" name="visibility" value="ok" onChange={(event) => setNewEntry({ ...newEntry, visibility: event.target.value })} />
+                    <label>ok</label>
+                    <input type="radio" name="visibility" value="poor" onChange={(event) => setNewEntry({ ...newEntry, visibility: event.target.value })} />
+                    <label>poor</label>
+                </fieldset>
+                <fieldset>
+                    <input type="radio" name="weather" value="sunny" onChange={(event) => setNewEntry({ ...newEntry, weather: event.target.value })} />
+                    <label>sunny</label>
+                    <input type="radio" name="weather" value="rainy" onChange={(event) => setNewEntry({ ...newEntry, weather: event.target.value })} />
+                    <label>rainy</label>
+                    <input type="radio" name="weather" value="cloudy" onChange={(event) => setNewEntry({ ...newEntry, weather: event.target.value })} />
+                    <label>cloudy</label>
+                    <input type="radio" name="weather" value="stormy" onChange={(event) => setNewEntry({ ...newEntry, weather: event.target.value })} />
+                    <label>stormy</label>
+                    <input type="radio" name="weather" value="windy" onChange={(event) => setNewEntry({ ...newEntry, weather: event.target.value })} />
+                    <label>windy</label>
+                </fieldset>
                 <div>
                     comment
                     <input
