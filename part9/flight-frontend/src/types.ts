@@ -9,13 +9,19 @@ export enum Weather {
 export enum Visibility {
     Great = 'great',
     Good = 'good',
-    Ok = 'poor',
+    Ok = 'ok',
     Poor = 'poor',
 }
 
 export type NonSensitiveDiaryEntry = Omit<DiaryEntry, 'comment'>;
 
-export type NewDiaryEntry = Omit<DiaryEntry, 'id'>;
+// export type NewDiaryEntry = Omit<DiaryEntry, 'id'>;
+export interface NewDiaryEntry {
+    date: string;
+    weather: string;
+    visibility: string;
+    comment: string;
+}
 
 export interface DiaryEntry {
     id: number;

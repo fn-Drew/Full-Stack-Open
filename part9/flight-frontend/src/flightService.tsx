@@ -9,8 +9,14 @@ export const getAllDiaryEntries = () => {
         .then(response => response.data)
 }
 
-export const createNote = (object: NewDiaryEntry) => {
+export const createNewEntry = (object: NewDiaryEntry) => {
     return axios
-        .post<DiaryEntry>(`${url}/diaries`, object)
+        .post<DiaryEntry>(`http://localhost:3001/api/diaries`, object)
+        .then(response => response.data)
+}
+
+export const pingServer = () => {
+    return axios
+        .get(`http://localhost:3001/ping`)
         .then(response => response.data)
 }

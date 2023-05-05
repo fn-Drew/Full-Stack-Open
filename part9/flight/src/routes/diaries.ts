@@ -20,6 +20,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+    console.log('someone posted an entry');
     try {
         const newDiaryEntry = toNewDiaryEntry(req.body);
         const addedEntry = diaryService.addDiary(newDiaryEntry);
