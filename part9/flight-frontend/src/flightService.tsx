@@ -9,14 +9,8 @@ export const getAllDiaryEntries = () => {
         .then(response => response.data)
 }
 
-export const createNewEntry = (object: NewDiaryEntry) => {
+export const createNewEntry = (object: NewDiaryEntry, setErrorMessage: React.Dispatch<React.SetStateAction<string>>) => {
     return axios
         .post<DiaryEntry>(`http://localhost:3001/api/diaries`, object)
-        .then(response => response.data)
-}
-
-export const pingServer = () => {
-    return axios
-        .get(`http://localhost:3001/ping`)
         .then(response => response.data)
 }

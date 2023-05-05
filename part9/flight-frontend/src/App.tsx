@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import EntryCreationForm from './compontents/EntryCreationForm';
-import { getAllDiaryEntries, pingServer } from './flightService';
+import { getAllDiaryEntries } from './flightService';
 import { DiaryEntry } from './types';
 
 function DisplayEntries({ entries }: { entries: DiaryEntry[] }): JSX.Element {
@@ -24,12 +24,6 @@ function DisplayEntries({ entries }: { entries: DiaryEntry[] }): JSX.Element {
     );
 }
 
-const PingServerButton = () => (
-    <button onClick={() => pingServer()}>
-        ping server
-    </button>
-)
-
 function App() {
     const [entries, setEntries] = useState<DiaryEntry[]>([]);
 
@@ -41,7 +35,6 @@ function App() {
 
     return (
         <div className="App">
-            <PingServerButton />
             <EntryCreationForm />
             <h2> Diary Entries </h2>
             <DisplayEntries entries={entries} />
