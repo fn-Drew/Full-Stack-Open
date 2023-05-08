@@ -39,7 +39,7 @@ const parseGender = (gender: unknown): string => {
 
 const parseOccupation = (occupation: unknown): string => {
     if (!isString(occupation)) {
-        throw new Error('Incorrect or missing gender');
+        throw new Error('Incorrect or missing occupation');
     }
     return occupation;
 };
@@ -50,13 +50,14 @@ const validatePatient = (object: unknown): NewPatient => {
     }
     console.log(object);
 
-    if ('name' in object && 'dateOfBirth' in object && 'ssn' in object && 'gender' in object && 'occupation' in object) {
+    if ('name' in object && 'dateOfBirth' in object && 'ssn' in object && 'gender' in object && 'occupation' in object && 'entries' in object) {
         const newPatient: NewPatient = {
             name: parseName(object.name),
             dateOfBirth: parseDate(object.dateOfBirth),
             ssn: parseSSN(object.ssn),
             gender: parseGender(object.gender),
             occupation: parseOccupation(object.occupation),
+            entries: [],
         };
         return newPatient;
     }

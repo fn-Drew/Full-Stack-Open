@@ -43,6 +43,7 @@ const patients: Patient[] = [
                     'Patient mistakenly found himself in a nuclear plant waste site without protection gear. Very minor radiation poisoning. ',
                 sickLeave: {
                     startDate: '2019-08-05',
+
                     endDate: '2019-08-28',
                 },
             },
