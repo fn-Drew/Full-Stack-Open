@@ -106,7 +106,6 @@ const patients: Patient[] = [
                 date: '2019-05-01',
                 specialist: 'Dr Byte House',
                 type: 'HealthCheck',
-
                 description: 'Digital overdose, very bytestatic. Otherwise healthy.',
                 healthCheckRating: 0,
             },

@@ -22,7 +22,6 @@ const data = [
         "name":
             "Influenza with other respiratory manifestations, other influenza virus codeentified",
         "latin":
-
             "Influenza cum aliis manifestationibus respiratoriis ab agente virali codeentificato"
     },
     {
@@ -37,13 +36,11 @@ const data = [
     },
     {
         "code": "N30.0",
-
         "name": "Acute cystitis",
         "latin": "Cystitis acuta"
     },
     {
         "code": "H54.7",
-
         "name": "Unspecified visual loss",
         "latin": "Amblyopia NAS"
     },
@@ -78,7 +75,6 @@ const data = [
     },
     {
         "code": "H35.29",
-
         "name": "Other proliferative retinopathy",
         "latin": "Alia retinopathia proliferativa"
     }
