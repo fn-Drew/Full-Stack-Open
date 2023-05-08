@@ -2,11 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import patientService from './services/patientService';
 import validatePatient from './utils';
+import diagnosesService from './services/diagnosesService';
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 const PORT = 3001;
+
+app.get('/api/ping', (_req, res) => {
+    console.log('someone pinged here');
+    res.send('pong');
+});
 
 app.get('/api/patients', (_req, res) => {
     res.send(patientService.getNonSensitivePatients());
@@ -15,11 +21,6 @@ app.get('/api/patients', (_req, res) => {
 app.get('/api/patients/:id', (req, res) => {
     const patient = patientService.getPatientById(req.params.id);
     res.send(patient);
-});
-
-app.get('/api/ping', (_req, res) => {
-    console.log('someone pinged here');
-    res.send('pong');
 });
 
 app.post('/api/patients', (req, res) => {
@@ -34,6 +35,10 @@ app.post('/api/patients', (req, res) => {
         }
         res.status(400).send(errorMessage);
     }
+});
+
+app.get('/api/diagnoses', (_req, res) => {
+    res.send(diagnosesService.getAllDiagnoses());
 });
 
 app.listen(PORT, () => {
