@@ -12,6 +12,11 @@ app.get('/api/patients', (_req, res) => {
     res.send(patientService.getNonSensitivePatients());
 });
 
+app.get('/api/patients/:id', (req, res) => {
+    const patient = patientService.getPatientById(req.params.id);
+    res.send(patient);
+});
+
 app.get('/api/ping', (_req, res) => {
     console.log('someone pinged here');
     res.send('pong');
