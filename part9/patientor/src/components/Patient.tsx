@@ -1,8 +1,10 @@
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
-import { Entry, Patient } from '../types'
+import { Diagnosis, Entry, Patient } from '../types'
+
 type Props = {
     patient: Patient | null | undefined;
+    diagnoses: Diagnosis[];
 };
 
 const GenderIcon = ({ gender }: { gender: string }) => {
@@ -16,13 +18,18 @@ const GenderIcon = ({ gender }: { gender: string }) => {
     }
 }
 
-const DiagnosisCodes = ({ entry }: { entry: Entry }) => {
+const DiagnosisCodes = ({ entry, diagnoses }: { entry: Entry, diagnoses: Diagnosis[] }) => {
     if (!entry.diagnosisCodes) return null
+    const diagnosisDescription = (code: string) => {
+        const diagnosis = diagnoses.find((diagnosis) => diagnosis.code === code)
+        if (!diagnosis) return null
+        return diagnosis.name
+    }
     return (
         <ul>
             {
                 entry.diagnosisCodes.map((code: string, i) => (
-                    <li key={i}> {code} </li>
+                    <li key={i}> {code} {diagnosisDescription(code)} </li>
                 ))
             }
         </ul>
@@ -30,7 +37,7 @@ const DiagnosisCodes = ({ entry }: { entry: Entry }) => {
 
 }
 
-const ViewPatient = ({ patient }: Props) => {
+const ViewPatient = ({ patient, diagnoses }: Props) => {
     return patient ? (
         <div>
             <h2> {patient.name} <GenderIcon gender={patient.gender} /> </h2>
@@ -41,7 +48,7 @@ const ViewPatient = ({ patient }: Props) => {
                 patient.entries.map((entry, i) => (
                     <div key={i}>
                         <p> {entry.date} {entry.description} </p>
-                        <DiagnosisCodes entry={entry} />
+                        <DiagnosisCodes entry={entry} diagnoses={diagnoses} />
                     </div>
                 ))
             }

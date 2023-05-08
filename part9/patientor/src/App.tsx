@@ -4,14 +4,16 @@ import { Route, Link, Routes, useMatch } from "react-router-dom";
 import { Button, Divider, Container, Typography } from '@mui/material';
 
 import { apiBaseUrl } from "./constants";
-import { Patient } from "./types";
+import { Diagnosis, Patient } from "./types";
 
 import patientService from "./services/patients";
+import diagnosesService from "./services/diagnoses";
 import PatientListPage from "./components/PatientListPage";
 import ViewPatient from "./components/Patient";
 
 const App = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
+    const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([])
     const match = useMatch('/patients/:id')
 
     useEffect(() => {
@@ -21,8 +23,14 @@ const App = () => {
             const patients = await patientService.getAll();
             setPatients(patients);
         };
+        const fetchDiagnoses = async () => {
+            const diagnoses = await diagnosesService.getAll();
+            setDiagnoses(diagnoses);
+        };
         void fetchPatientList();
+        void fetchDiagnoses();
     }, []);
+
 
     const patient = match ? patients.find(patient => patient.id === match.params.id) : null
 
@@ -38,7 +46,7 @@ const App = () => {
                 <Divider hidden />
                 <Routes>
                     <Route path="/" element={<PatientListPage patients={patients} setPatients={setPatients} />} />
-                    <Route path="/patients/:id" element={<ViewPatient patient={patient} />} />
+                    <Route path="/patients/:id" element={<ViewPatient patient={patient} diagnoses={diagnoses} />} />
                 </Routes>
             </Container>
         </div>
