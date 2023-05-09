@@ -49,6 +49,13 @@ const parseHealthCheckRating = (rating: unknown) => {
     return rating;
 };
 
+const parseDiagnosisCodes = (object: unknown): Array<Diagnosis['code']> => {
+    if (!object || typeof object !== 'object' || !('diagnosisCodes' in object)) {
+        return [] as Array<Diagnosis['code']>;
+    }
+    return object.diagnosisCodes as Array<Diagnosis['code']>;
+};
+
 const validateEntry = (object: unknown): NewEntry => {
     if (!object || typeof object !== 'object') {
         throw new Error('Incorrect or missing data in entry');
@@ -56,11 +63,19 @@ const validateEntry = (object: unknown): NewEntry => {
 
     if ('type' in object && 'description' in object && 'date' in object && 'specialist' in object) {
 
-        const newEntry = {
+        let newEntry = {
             description: parseString(object.description),
             date: parseString(object.date),
             specialist: parseString(object.specialist),
+            diagnosisCodes: [''],
         };
+
+        if ("diagnosisCodes" in object) {
+            newEntry = {
+                ...newEntry,
+                diagnosisCodes: parseDiagnosisCodes(object),
+            };
+        }
 
         switch (object.type) {
             case 'Hospital':
