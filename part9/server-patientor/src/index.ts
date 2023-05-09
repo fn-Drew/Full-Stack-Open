@@ -3,6 +3,7 @@ import cors from 'cors';
 import patientService from './services/patientService';
 import validatePatient from './utils';
 import diagnosesService from './services/diagnosesService';
+import validateEntry from './validateEntry';
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -35,6 +36,13 @@ app.post('/api/patients', (req, res) => {
         }
         res.status(400).send(errorMessage);
     }
+});
+
+app.post('/api/patients/:id/entries', (req, res) => {
+    const patient = patientService.getPatientById(req.params.id);
+    const newEntry = validateEntry(req.body);
+    const entry = patientService.addEntry(patient, newEntry);
+    res.send(entry);
 });
 
 app.get('/api/diagnoses', (_req, res) => {
