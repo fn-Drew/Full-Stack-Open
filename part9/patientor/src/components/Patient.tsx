@@ -4,6 +4,7 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import CheckIcon from '@mui/icons-material/Check';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { Diagnosis, Entry, Patient } from '../types'
+import NewEntryForm from './NewEntryForm';
 
 type Props = {
     patient: Patient | null | undefined;
@@ -100,9 +101,9 @@ const ViewPatient = ({ patient, diagnoses }: Props) => {
     return patient ? (
         <div>
             <h2> {patient.name} <GenderIcon gender={patient.gender} /> </h2>
-
             <p> {patient.occupation} </p>
             <h3> Entries </h3>
+            <NewEntryForm patient={patient} />
             <Entries patient={patient} diagnoses={diagnoses} />
         </div>
     ) : <div>
