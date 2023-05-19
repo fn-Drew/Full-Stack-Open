@@ -1,0 +1,22 @@
+{
+    "name": "blogs_sql",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.ts",
+    "scripts": {
+        "tsc": "tsc",
+        "dev": "ts-node-dev index.ts"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "pg": "^8.11.0",
+        "sequelize": "^6.31.1",
+        "typescript": "^5.0.4"
+    },
+    "devDependencies": {
+        "ts-node-dev": "^2.0.0"
+    }
+}

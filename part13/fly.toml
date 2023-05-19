@@ -1,13 +1,10 @@
-# fly.toml app configuration file generated for blogs-relational on 2023-05-18T20:57:07-04:00
+# fly.toml app configuration file generated for blogs-relational on 2023-05-19T16:25:38-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = "blogs-relational"
 primary_region = "iad"
-
-[env]
-  PORT = "8080"
 
 [http_service]
   internal_port = 8080
