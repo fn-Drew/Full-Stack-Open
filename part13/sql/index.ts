@@ -2,6 +2,7 @@ require('dotenv').config();
 const { Sequelize, QueryTypes, DataTypes, Model } = require('sequelize');
 const express = require('express');
 const app = express();
+app.use(express.json())
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialectOptions: {
@@ -40,6 +41,15 @@ Note.init({
 app.get('/api/notes', async (_req: any, res: any) => {
     const notes = await Note.findAll()
     res.json(notes)
+})
+
+app.post('/api/notes', async (req: any, res: any) => {
+    try {
+        const note = await Note.create(req.body)
+        return res.json(note)
+    } catch (error) {
+        return res.status(400).json({ error: error })
+    }
 })
 
 const PORT = process.env.PORT || 3001
