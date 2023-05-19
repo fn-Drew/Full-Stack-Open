@@ -1,17 +1,48 @@
 require('dotenv').config();
-const { Sequelize, QueryTypes } = require('sequelize');
+const { Sequelize, QueryTypes, DataTypes, Model } = require('sequelize');
+const express = require('express');
+const app = express();
 
-const sequelize = new Sequelize(process.env.DATABASE_URL)
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialectOptions: {
+        // gives 'server does not support SSL' error
+        // ssl: {
+        //     require: true,
+        //     rejectUnauthorized: false
+        // }
+    },
+})
 
-const main = async () => {
-    try {
-        await sequelize.authenticate();
-        const notes = await sequelize.query('SELECT * FROM notes', { type: QueryTypes.SELECT })
-        console.log(notes)
-        sequelize.close();
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
+class Note extends Model { }
+Note.init({
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    content: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    important: {
+        type: DataTypes.BOOLEAN,
+    },
+    date: {
+        type: DataTypes.DATE,
     }
-}
+}, {
+    sequelize,
+    underscored: true,
+    timestamps: false,
+    modelName: 'note'
+})
 
-main()
+app.get('/api/notes', async (_req: any, res: any) => {
+    const notes = await Note.findAll()
+    res.json(notes)
+})
+
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
