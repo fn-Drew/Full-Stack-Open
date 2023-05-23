@@ -1,0 +1,29 @@
+const router = require('express').Router()
+const { QueryTypes } = require('sequelize')
+const { sequelize } = require('../util/db')
+const { Blog } = require('../models')
+
+router.get('/', async (_req, res) => {
+    const blogs = await sequelize.query('SELECT * FROM blogs', { type: QueryTypes.SELECT })
+    res.send(blogs)
+})
+
+router.post('/', async (req, res) => {
+    try {
+        const blogs = await Blog.create(req.body);
+        return res.json(blogs)
+    } catch (error) {
+        return res.status(400).json({ error: error })
+    }
+})
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const count = await Blog.destroy({ where: { id: req.params.id } })
+        return res.status(204).json(count);
+    } catch (error) {
+        return res.status(404).json({ error: error })
+    }
+})
+
+module.exports = router
