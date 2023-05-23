@@ -17,12 +17,22 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.put('/:id', async (req, res) => {
+    try {
+        const blog = await Blog.findByPk(req.params.id)
+        await blog.update({ ...req.body, likes: blog.likes + 1 })
+        return res.status(200).json(blog)
+    } catch (error) {
+        return res.status(400).json({ error: error })
+    }
+})
+
 router.delete('/:id', async (req, res) => {
     try {
         const count = await Blog.destroy({ where: { id: req.params.id } })
         return res.status(204).json(count);
     } catch (error) {
-        return res.status(404).json({ error: error })
+        return res.status(400).json({ error: error })
     }
 })
 
