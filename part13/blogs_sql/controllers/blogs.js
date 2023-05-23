@@ -1,10 +1,8 @@
 const router = require('express').Router()
-const { QueryTypes } = require('sequelize')
-const { sequelize } = require('../util/db')
 const { Blog } = require('../models')
 
 router.get('/', async (_req, res) => {
-    const blogs = await sequelize.query('SELECT * FROM blogs', { type: QueryTypes.SELECT })
+    const blogs = await Blog.findAll()
     res.send(blogs)
 })
 
